@@ -1,4 +1,4 @@
-  html {
+html {
   overflow-y: scroll;
 }
     
@@ -339,10 +339,6 @@
   opacity: 0.9;
 }
 
-#agenda {
-  width: 100%;
-}
-
 .evento-descripcion {
   font-weight: 600;
   color: #e0e7ff;
@@ -635,22 +631,29 @@
   min-height: 85vh;
 }
 
-.main-content {
-  margin-left: 0;
-  margin-bottom: 72px;
-}
-
 .app-layout {
   display: flex;
   gap: 1.5rem;
   padding: 2rem;
 }
 
-.agenda-wrapper {
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
 }
+
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.section-wrapper {
+  width: 100%;
+  max-width: 1100px;
+}
+
 
 .page-wrapper {
   display: flex;
@@ -679,13 +682,6 @@
   overflow: hidden;
 }
 
-#agenda {
-  max-width: 760px;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-
 #agenda .collapse,
 #agenda .collapsing {
   width: 100%;
@@ -706,19 +702,6 @@
   min-width: 0;
   box-sizing: border-box;
 }
-
-
-/* 🔒 ANCHO FIJO DEL DÍA (abierto o cerrado) */
-#agenda > .list-group-item,
-#agenda .day-pill {
-  width: 100%;
-  max-width: 760px;   /* ok en desktop */
-  min-width: 0;      /* ✅ clave */
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-
 
 .modo-edicion .evento-fecha {
   cursor: pointer;
@@ -1029,3 +1012,57 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+
+  .calendar-wrapper {
+    overflow-x: auto;   /* 👈 permite scroll horizontal */
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(7, minmax(42px, 1fr));
+    min-width: 300px; /* asegura estructura */
+  }
+
+  .day {
+    aspect-ratio: auto;     /* ❌ quitamos cuadrados */
+    min-height: 70px;
+    padding: 4px;
+    font-size: 0.7rem;
+  }
+
+  .day strong {
+    font-size: 0.7rem;
+  }
+
+  .event {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .sidebar {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    height: auto;
+  }
+
+  .sidebar-nav {
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .sidebar-link {
+    height: auto !important;
+    padding: 6px 4px;
+  }
+
+  .sidebar-link span {
+    display: none; /* solo íconos */
+  }
+
+  .sidebar-link i {
+    font-size: 1.3rem;
+  }
+}
