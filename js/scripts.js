@@ -1100,39 +1100,62 @@ document.addEventListener("DOMContentLoaded", () => {
   showSection("lobby");
 });
 
-function renderWeeklyEvents(){
+function renderWeeklyEvents() {
   const container = document.getElementById("weeklyEvents");
   container.innerHTML = "";
 
   const today = new Date();
+
+  // 🔹 Calcular lunes de esta semana
+  const day = today.getDay(); // 0 = domingo, 1 = lunes, ...
+  const diffToMonday = (day === 0 ? -6 : 1 - day); // si hoy es domingo, retrocede 6 días
   const weekStart = new Date(today);
-  weekStart.setDate(today.getDate() - today.getDay());
+  weekStart.setDate(today.getDate() + diffToMonday);
+  weekStart.setHours(0,0,0,0);
+
+  // 🔹 Calcular domingo de esta semana
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate() + 6);
+  weekEnd.setHours(23,59,59,999);
 
-  let hasEvents = false;
+  let weekEvents = [];
 
+  // 🔹 Filtrar eventos que están dentro de la semana
   for (let dateStr in events) {
     const [y, m, d] = dateStr.split("-");
-    const eventDate = new Date(y, m - 1, d); // ✅ sin corrimiento
+    const eventDate = new Date(y, m - 1, d);
+    eventDate.setHours(0,0,0,0);
 
     if (eventDate >= weekStart && eventDate <= weekEnd) {
       const e = events[dateStr];
-      hasEvents = true;
-
-      container.innerHTML += `
-        <div class="week-event">
-          <strong>${eventDate.toLocaleDateString("es-ES",{weekday:"long", day:"numeric"})}</strong><br>
-          🕒 ${e.time || ""} — ${e.text}
-        </div>
-      `;
+      weekEvents.push({
+        date: eventDate,
+        data: Array.isArray(e) ? e : [e] // si hay varios eventos en la misma fecha
+      });
     }
   }
 
-  if(!hasEvents){
+  if (weekEvents.length === 0) {
     container.innerHTML = `<div class="empty-week">No hay eventos esta semana</div>`;
+    return;
   }
+
+  // 🔹 Ordenar los eventos por fecha
+  weekEvents.sort((a, b) => a.date - b.date);
+
+  // 🔹 Renderizar
+  weekEvents.forEach(day => {
+    day.data.forEach(e => {
+      container.innerHTML += `
+        <div class="week-event">
+          <strong>${day.date.toLocaleDateString("es-ES",{weekday:"long", day:"numeric"})}</strong><br>
+          🕒 ${e.time || ""} — ${e.text}
+        </div>
+      `;
+    });
+  });
 }
+
 
 const LS_IMPORTANT = "importantBox";
 
