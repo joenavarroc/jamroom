@@ -597,43 +597,35 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    flex-direction: row;
-    width: 100%;
-    height: 64px;
-    bottom: 0;
-    top: auto;
 
-    border-right: none;
-    border-top: 1px solid rgba(255,255,255,.06);
+  .page-wrapper {
+    padding: 0.5rem;
   }
 
-  .sidebar-logo {
-    display: none;
-  }
-
-  .sidebar-nav {
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-  }
-
-  .sidebar-link {
-    width: 56px;
-    height: 56px;
-  }
-
-  .main-content {
-    margin-left: 0;
-    margin-bottom: 64px;
-  }
-
-  #agenda > .list-group-item,
-  #agenda .day-pill {
+  .agenda-wrapper {
     max-width: 100%;
-    min-width: 100%;
+    padding: 0;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Botones uno debajo del otro */
+  .d-flex.flex-wrap.justify-content-center.gap-3 {
+    flex-direction: column;
+  }
+
+  .btn-app,
+  .btn-app-outline {
+    width: 100%;
   }
 }
+
 
 .app-wrapper {
   max-width: 1200px;
@@ -644,9 +636,8 @@
 }
 
 .main-content {
-  flex: 1;
-  border-radius: 16px;
-  padding: 0;
+  margin-left: 0;
+  margin-bottom: 72px;
 }
 
 .app-layout {
@@ -700,35 +691,34 @@
   width: 100%;
 }
 
-#agenda .collapse,
-#agenda .collapse-inner-fixed {
-  width: 100%;
-  max-width: 760px;
-  min-width: 760px;   /* 🔥 clave */
-}
 
 #agenda .collapse {
   width: 100%;
 }
 
-#agenda .collapse-inner-fixed {
+#agenda,
+#agenda .collapse,
+#agenda .collapse-inner-fixed,
+#agenda > .list-group-item,
+#agenda .day-pill {
   width: 100%;
-  max-width: 760px;
-  min-width: 760px;
-  margin: 0 auto;
+  max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
+
 
 /* 🔒 ANCHO FIJO DEL DÍA (abierto o cerrado) */
 #agenda > .list-group-item,
 #agenda .day-pill {
   width: 100%;
-  max-width: 760px;
-  min-width: 760px;
+  max-width: 760px;   /* ok en desktop */
+  min-width: 0;      /* ✅ clave */
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
 }
+
 
 .modo-edicion .evento-fecha {
   cursor: pointer;
@@ -1001,3 +991,41 @@ body:not(.modo-edicion) .day {
     margin: 4px 0;
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+
+  .page-wrapper {
+    padding: 0.5rem;
+  }
+
+  .app-wrapper {
+    flex-direction: column !important;  /* 🔥 CLAVE */
+    max-width: 100% !important;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    flex-direction: row !important;
+    justify-content: space-around;
+    padding: 0.5rem !important;
+  }
+
+  .agenda-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #agenda {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
