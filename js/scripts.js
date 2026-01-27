@@ -185,7 +185,6 @@ function abrirModalMusicos(fecha) {
   new bootstrap.Modal(document.getElementById('modalMusicos')).show();
 }
 
-
 // Función para generar botones para cada instrumento
 function generarBotonesInstrumentos(clave) {
   return Object.keys(musicosPorInstrumento).map(instrumento => `
@@ -650,7 +649,7 @@ function renderizarAgenda() {
                 <strong>🎼 Repertorio</strong>
                 <button class="btn btn-app boton-edicion"
                   onclick="abrirModalRepertorio('${fecha}')">
-                  Editar repertorio
+                  Editar
                 </button>
               </div>
               <div class="card-body" id="repertorio_${fechaId}">
@@ -1097,6 +1096,10 @@ renderCalendar();
 
 // LOBBY*********************************************************************************************LOBBY
 
+document.addEventListener("DOMContentLoaded", () => {
+  showSection("lobby");
+});
+
 function renderWeeklyEvents(){
   const container = document.getElementById("weeklyEvents");
   container.innerHTML = "";
@@ -1389,4 +1392,3 @@ function cambiarPaginaRepertorio(delta) {
   paginaRepertorio += delta;
   renderRepertorioGlobal();
 }
-
