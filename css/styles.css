@@ -1,4 +1,4 @@
- html {
+  html {
   overflow-y: scroll;
 }
     
@@ -632,27 +632,20 @@
   padding: 2rem;
 }
 
-.page-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-}
-
 .main-content {
   flex: 1;
-  display: flex;
-  justify-content: center;
+  display: block;
 }
 
 .section-wrapper {
   width: 100%;
-  max-width: 1100px;
+  max-width: 900px;   /* 👈 mismo concepto que mobile */
+  margin: 0 auto;     /* 👈 centrado */
+  box-sizing: border-box;
 }
 
-
 .page-wrapper {
-  display: flex;
-  justify-content: center;
+  width: 100%;
   padding: 2rem;
 }
 
@@ -747,14 +740,13 @@
 }
 
 
-
 /* ======================================== CALENDARIO ========================================= */
-.calendar-grid{
+.calendar-grid {
   display:grid;
   grid-template-columns: repeat(7, 1fr);
   gap:12px;
+  width:100%;
 }
-
 
 .day{
   background: linear-gradient(145deg,#0b1220,#111b30);
@@ -1054,4 +1046,45 @@ html, body {
   .sidebar-link i {
     font-size: 1.3rem;
   }
+}
+
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+#lobbySection,
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 🔥 FORZAR TODAS LAS SECCIONES A MISMO ANCHO REAL */
+#lobbySection,
+#agendaSection,
+#repertorioSection,
+#calendarSection {
+  width: 100%;
+}
+
+/* 🔥 FORZAR CONTENIDO INTERNO A ESTIRARSE */
+#lobbySection > *,
+#calendarSection > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
