@@ -1181,46 +1181,43 @@ html, body {
   }
 }
 
+/* 🔒 Ocultar los botones de edición por defecto si NO está activo el modo edición */
+body:not(.modo-edicion) .boton-edicion {
+    display: none !important;
+}
+
+/* 📱 Ajustes para móviles solo si el modo edición está activo */
 @media (max-width: 480px) {
 
   /* Botón eliminar del repertorio */
-  .btn-delete-song,
-  .btn-rep-action {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    max-width: 36px !important;
-    padding: 0 !important;
+  body.modo-edicion .btn-delete-song,
+  body.modo-edicion .btn-rep-action {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      padding: 0 !important;
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
 
-    font-size: 1rem !important;
+      font-size: 1rem !important;
   }
-
-  /* Evitar que herede width:100% */
-  .boton-edicion .btn-delete-song,
-  .boton-edicion .btn-rep-action {
-    width: 36px !important;
-  }
-}
-
-@media (max-width: 480px) {
 
   /* Botón Editar repertorio (agenda) */
-  .card-header strong + .btn.boton-edicion {
-    width: auto !important;
-    min-width: unset !important;
-    padding: 4px 10px !important;
-    font-size: 0.75rem !important;
-    height: auto !important;
-    line-height: 1.1 !important;
+  body.modo-edicion .card-header strong + .btn.boton-edicion {
+      width: auto !important;
+      min-width: unset !important;
+      padding: 4px 10px !important;
+      font-size: 0.75rem !important;
+      height: auto !important;
+      line-height: 1.1 !important;
 
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    white-space: nowrap; /* 👈 evita que corte "Editar" */
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap; /* evita que corte "Editar" */
   }
 
 }
@@ -1242,3 +1239,4 @@ html, body {
     margin-left: 100px; /* deja espacio para la sidebar */
   }
 }
+
