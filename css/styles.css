@@ -1,4 +1,4 @@
-html {
+ html {
   overflow-y: scroll;
 }
     
@@ -598,11 +598,6 @@ html {
     padding: 0.5rem;
   }
 
-  .agenda-wrapper {
-    max-width: 100%;
-    padding: 0;
-  }
-
   header h1 {
     font-size: 1.4rem;
   }
@@ -998,12 +993,6 @@ html, body {
     flex-direction: row !important;
     justify-content: space-around;
     padding: 0.5rem !important;
-  }
-
-  .agenda-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
   }
 
   #agenda {
