@@ -17,6 +17,10 @@ let musicosPorInstrumento = JSON.parse(localStorage.getItem(LS_MUSICOS_POR_INSTR
   const LS_EVENTOS = "eventosInfo";
   let fechaEditando = null;
 
+  let paginaRepertorio = 1;
+  const CANCIONES_POR_PAGINA = 5;
+  let filtroRepertorio = "";
+
   const LS_REPERTORIO_GLOBAL = "repertorioGlobal";
   let repertorioGlobal = JSON.parse(localStorage.getItem(LS_REPERTORIO_GLOBAL)) || [];
 
@@ -819,7 +823,7 @@ function activarModoEdicion() {
 
   actualizarEstadoImportant();
   renderRepertorioGlobal();
-
+  renderCalendar(); // 🔥 FORZAR reconstrucción del calendario
 }
 
 function desactivarModoEdicion() {
@@ -1185,11 +1189,35 @@ function actualizarEstadoImportant(){
 
 // REPERTORIO********************************************************************************************REPERTORIO
 
-function renderRepertorioGlobal(){
+function renderRepertorioGlobal() {
   const cont = document.getElementById("repertorioGlobalList");
   cont.innerHTML = "";
 
-  repertorioGlobal.forEach((c, i) => {
+  if (!repertorioGlobal || repertorioGlobal.length === 0) {
+    cont.innerHTML = "<em>No hay canciones en el repertorio</em>";
+    return;
+  }
+
+  // 🔍 FILTRO POR TÍTULO
+  const filtradas = repertorioGlobal
+    .map((c, index) => ({ ...c, indexReal: index }))
+    .filter(c =>
+      c.titulo.toLowerCase().includes(filtroRepertorio)
+    );
+
+  if (filtradas.length === 0) {
+    cont.innerHTML = "<em>No se encontraron canciones</em>";
+    return;
+  }
+
+  // 📄 PAGINACIÓN
+  const totalPaginas = Math.ceil(filtradas.length / CANCIONES_POR_PAGINA);
+  paginaRepertorio = Math.min(paginaRepertorio, totalPaginas);
+
+  const inicio = (paginaRepertorio - 1) * CANCIONES_POR_PAGINA;
+  const visibles = filtradas.slice(inicio, inicio + CANCIONES_POR_PAGINA);
+
+  visibles.forEach((c) => {
     cont.innerHTML += `
       <div class="modal-bloque">
         <div class="row g-2 align-items-end">
@@ -1204,21 +1232,21 @@ function renderRepertorioGlobal(){
           <div class="col-md-2">
             <label>Tonalidad</label>
             <input class="form-control tonalidad"
-              value="${c.tonalidad||''}"
+              value="${c.tonalidad || ''}"
               ${modoEdicionActivo ? "" : "disabled"}>
           </div>
 
           <div class="col-md-3">
             <label>YouTube</label>
             <input class="form-control youtube"
-              value="${c.youtube||''}"
+              value="${c.youtube || ''}"
               ${modoEdicionActivo ? "" : "disabled"}>
           </div>
 
           <div class="col-md-3">
             <label>Letra / Tab</label>
             <input class="form-control letra"
-              value="${c.letra||''}"
+              value="${c.letra || ''}"
               ${modoEdicionActivo ? "" : "disabled"}>
           </div>
 
@@ -1237,7 +1265,7 @@ function renderRepertorioGlobal(){
 
             ${modoEdicionActivo ? `
               <button class="btn btn-delete-song"
-                onclick="eliminarCancionGlobal(${i})">🗑</button>
+                onclick="eliminarCancionGlobal(${c.indexReal})">🗑</button>
             ` : ""}
           </div>
 
@@ -1246,7 +1274,12 @@ function renderRepertorioGlobal(){
     `;
   });
 
-  localStorage.setItem(LS_REPERTORIO_GLOBAL, JSON.stringify(repertorioGlobal));
+  renderPaginacionRepertorio(totalPaginas);
+  // 💾 guardar como siempre
+  localStorage.setItem(
+    LS_REPERTORIO_GLOBAL,
+    JSON.stringify(repertorioGlobal)
+  );
 }
 
 
@@ -1302,19 +1335,58 @@ function sincronizarRepertorioDesdeInputs(){
   const cont = document.getElementById("repertorioGlobalList");
   const bloques = cont.querySelectorAll(".modal-bloque");
 
-  const nuevas = [];
-
-  bloques.forEach(b => {
+  bloques.forEach((b, i) => {
     const titulo = b.querySelector(".titulo")?.value.trim();
     const tonalidad = b.querySelector(".tonalidad")?.value.trim();
     const youtube = b.querySelector(".youtube")?.value.trim();
     const letra = b.querySelector(".letra")?.value.trim();
 
-    if(titulo){
-      nuevas.push({ titulo, tonalidad, youtube, letra });
+    const indexReal = (paginaRepertorio - 1) * CANCIONES_POR_PAGINA + i;
+
+    if (repertorioGlobal[indexReal]) {
+      repertorioGlobal[indexReal] = { titulo, tonalidad, youtube, letra };
     }
   });
 
-  repertorioGlobal = nuevas;
-  localStorage.setItem(LS_REPERTORIO_GLOBAL, JSON.stringify(repertorioGlobal));
+  localStorage.setItem(
+    LS_REPERTORIO_GLOBAL,
+    JSON.stringify(repertorioGlobal)
+  );
 }
+
+function buscarRepertorio(texto) {
+  filtroRepertorio = texto.toLowerCase();
+  paginaRepertorio = 1;
+  renderRepertorioGlobal();
+}
+
+function renderPaginacionRepertorio(totalPaginas) {
+  const cont = document.getElementById("paginacionRepertorio");
+  cont.innerHTML = "";
+
+  if (totalPaginas <= 1) return;
+
+  cont.innerHTML = `
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-sm btn-outline-primary"
+        ${paginaRepertorio === 1 ? "disabled" : ""}
+        onclick="cambiarPaginaRepertorio(-1)">
+        ⬅️
+      </button>
+
+      <span>Página ${paginaRepertorio} de ${totalPaginas}</span>
+
+      <button class="btn btn-sm btn-outline-primary"
+        ${paginaRepertorio === totalPaginas ? "disabled" : ""}
+        onclick="cambiarPaginaRepertorio(1)">
+        ➡️
+      </button>
+    </div>
+  `;
+}
+
+function cambiarPaginaRepertorio(delta) {
+  paginaRepertorio += delta;
+  renderRepertorioGlobal();
+}
+
