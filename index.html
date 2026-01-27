@@ -50,7 +50,6 @@
       <div class="section-wrapper">
         <header class="text-center mb-5">
           <h1 class="fs-2 fw-bold">🎵 JAMROOM</h1>
-          <p class="subtitle">Planificador de ensayos</p>
         </header>
 
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
@@ -67,7 +66,7 @@
           </button>
         </div>
 
-        <div id="lobbySection" style="display:none;">
+        <div id="lobbySection" >
           <h2>Recordatorios</h2>
           <div id="weeklyEvents" class="card mb-4"></div>
 
@@ -89,17 +88,19 @@
 
         <!-- Agenda principal -->
         <!-- SECCIÓN AGENDA -->
-        <div id="agendaSection">
+        <div id="agendaSection" style="display:none;">
           <div id="agenda" class="mt-4"></div>
         </div>
 
         <!-- SECCIÓN CALENDARIO (NUEVA) -->
         <div id="calendarSection" style="display:none;">
 
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-app" onclick="prevMonth()">⬅</button>
+          <div class="calendar-header mb-3">
+            <div class="calendar-nav">
+              <button class="btn btn-app btn-cal-nav" onclick="prevMonth()">⬅</button>
+              <button class="btn btn-app btn-cal-nav" onclick="nextMonth()">➡</button>
+            </div>
             <h3 id="monthYear" class="m-0"></h3>
-            <button class="btn btn-app" onclick="nextMonth()">➡</button>
           </div>
 
           <div id="weekDays" class="calendar-weekdays">
@@ -312,4 +313,3 @@
 <script src="js/scripts.js"></script>
 </body>
 </html>
-
