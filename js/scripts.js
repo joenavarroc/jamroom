@@ -1191,7 +1191,6 @@ function actualizarEstadoImportant(){
 
 
 // REPERTORIO********************************************************************************************REPERTORIO
-
 function renderRepertorioGlobal() {
   const cont = document.getElementById("repertorioGlobalList");
   cont.innerHTML = "";
@@ -1200,6 +1199,8 @@ function renderRepertorioGlobal() {
     cont.innerHTML = "<em>No hay canciones en el repertorio</em>";
     return;
   }
+
+  const esMobile = window.innerWidth < 768; // 👈 detecta pantalla chica
 
   // 🔍 FILTRO POR TÍTULO
   const filtradas = repertorioGlobal
@@ -1221,6 +1222,34 @@ function renderRepertorioGlobal() {
   const visibles = filtradas.slice(inicio, inicio + CANCIONES_POR_PAGINA);
 
   visibles.forEach((c) => {
+
+    // 👉 MOBILE + NO EDICIÓN = vista compacta
+    if (esMobile && !modoEdicionActivo) {
+      cont.innerHTML += `
+        <div class="modal-bloque">
+          <div class="d-flex justify-content-between align-items-center">
+
+            <strong class="text-truncate">${c.titulo}</strong>
+
+            <div class="d-flex gap-2">
+              ${c.youtube ? `
+                <button class="btn btn-sm btn-soft-primary"
+                  onclick="abrirYoutubeEnModal('${c.youtube}')">▶️</button>
+              ` : ""}
+
+              ${c.letra ? `
+                <button class="btn btn-sm btn-soft-secondary"
+                  onclick="window.open('${c.letra}', '_blank')">📄</button>
+              ` : ""}
+            </div>
+
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // 👉 DESKTOP o MODO EDICIÓN = vista completa
     cont.innerHTML += `
       <div class="modal-bloque">
         <div class="row g-2 align-items-end">
@@ -1278,12 +1307,13 @@ function renderRepertorioGlobal() {
   });
 
   renderPaginacionRepertorio(totalPaginas);
-  // 💾 guardar como siempre
+
   localStorage.setItem(
     LS_REPERTORIO_GLOBAL,
     JSON.stringify(repertorioGlobal)
   );
 }
+
 
 
 function agregarCancionGlobal(){
