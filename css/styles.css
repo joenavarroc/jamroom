@@ -1,4 +1,4 @@
-  html {
+ html {
   overflow-y: scroll;
 }
     
@@ -1087,4 +1087,158 @@ html, body {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* 🎨 BOTONES DEL MODAL DEL CALENDARIO */
+#eventModal .btn-success {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(59,130,246,.4);
+  transition: all .2s ease;
+}
+
+#eventModal .btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(59,130,246,.6);
+}
+
+#eventModal .btn-danger {
+  background: rgba(59,130,246,.12);
+  color: #93c5fd;
+  border: 1px solid rgba(59,130,246,.35);
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+#eventModal .btn-danger:hover {
+  background: rgba(59,130,246,.2);
+  color: #e0e7ff;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 6px;
+}
+
+/* Texto mes centrado relativo al contenedor */
+#monthYear {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Botones de flecha */
+.btn-cal-nav {
+  min-width: 40px !important;
+  padding: 4px 8px !important;
+}
+
+/* 📱 En celulares achicamos más */
+@media (max-width: 480px) {
+  .btn-cal-nav {
+    min-width: 32px !important;
+    padding: 2px 6px !important;
+    font-size: 0.8rem;
+  }
+
+  #monthYear {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .day {
+    overflow: hidden;        /* 🔒 nada sale del cuadro */
+  }
+
+  .day .event {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-top: 2px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 👈 máximo 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 768px) {
+  .day {
+    max-height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Botón eliminar del repertorio */
+  .btn-delete-song,
+  .btn-rep-action {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 1rem !important;
+  }
+
+  /* Evitar que herede width:100% */
+  .boton-edicion .btn-delete-song,
+  .boton-edicion .btn-rep-action {
+    width: 36px !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Botón Editar repertorio (agenda) */
+  .card-header strong + .btn.boton-edicion {
+    width: auto !important;
+    min-width: unset !important;
+    padding: 4px 10px !important;
+    font-size: 0.75rem !important;
+    height: auto !important;
+    line-height: 1.1 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap; /* 👈 evita que corte "Editar" */
+  }
+
+}
+
+/* ===== SIDEBAR FLOTANTE Y CENTRADA CON SCROLL (DESKTOP) ===== */
+@media (min-width: 992px) {
+
+  .sidebar {
+    position: fixed;
+    left: calc(50% - 600px); /* ajusta según tu layout */
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: auto;
+    z-index: 1000;
+  }
+
+  .app-wrapper {
+    margin-left: 100px; /* deja espacio para la sidebar */
+  }
 }
