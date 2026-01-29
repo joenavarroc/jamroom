@@ -24,6 +24,11 @@
       <div class="sidebar-logo"></div>
 
       <nav class="sidebar-nav">
+        <a class="sidebar-link active" onclick="showSection('home')">
+          <i class="bi bi-house"></i>
+          <span>Home</span>
+        </a>
+
         <a class="sidebar-link" data-section="lobby" onclick="showSection('lobby')">
           <i class="bi bi-people"></i>
           <span>Lobby</span>
@@ -66,6 +71,32 @@
           </button>
         </div>
 
+        <!-- 🏠 HOME SECTION -->
+        <div id="homeSection" style="display:none">
+
+            <h3 class="mb-3">🔥 Más escuchadas</h3>
+            <div class="row g-3 mb-5" id="homeMasEscuchadas"></div>
+
+            <h3 class="mb-3">⭐ Favoritos</h3>
+            <div class="row g-3 mb-5" id="homeFavoritos"></div>
+
+            <h3 class="mb-3">🆕 Últimos agregados</h3>
+            <div class="row g-3 mb-5" id="homeCards"></div>
+
+            <!-- 📌 PLAYER -->
+            <div id="homePlayer" class="home-player d-none">
+              <div class="ratio ratio-16x9">
+                <iframe id="homeYoutubeFrame"
+                        src=""
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+
+          </div>
+
+        <!-- SECCIÓN LOBBY -->
         <div id="lobbySection" >
           <h2>Recordatorios</h2>
           <div id="weeklyEvents" class="card mb-4"></div>
@@ -97,8 +128,13 @@
 
           <div class="calendar-header mb-3">
             <div class="calendar-nav">
-              <button class="btn btn-app btn-cal-nav" onclick="prevMonth()">⬅</button>
-              <button class="btn btn-app btn-cal-nav" onclick="nextMonth()">➡</button>
+              <button class="btn btn-flecha" onclick="prevMonth()">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <button class="btn btn-flecha" onclick="nextMonth()">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+
             </div>
             <h3 id="monthYear" class="m-0"></h3>
           </div>
@@ -119,29 +155,66 @@
         <!-- SECCIÓN REPERTORIO -->
         <div id="repertorioSection" style="display:none;">
 
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-0">Repertorio</h2>
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
 
-            <input
-              type="text"
-              id="buscadorRepertorio"
-              class="form-control form-control-sm"
-              placeholder="Buscar canción"
-              style="max-width:220px"
-              oninput="buscarRepertorio(this.value)"
-            >
+            <h2 class="m-0">Repertorio</h2>
+
+            <div class="d-flex gap-2 align-items-center">
+
+              <!-- 🔎 BUSCAR CANCIÓN -->
+              <input type="text"
+                    class="form-control"
+                    placeholder="Buscar canción"
+                    style="max-width: 220px"
+                    oninput="buscarRepertorio(this.value)">
+            </div>
           </div>
 
           <div id="repertorioGlobalList"></div>
-          <div id="paginacionRepertorio" class="mt-3 d-flex justify-content-center"></div>
 
-          <div class="mt-3 d-flex gap-2 boton-edicion">
-            <button class="btn btn-app btn-rep-action" onclick="agregarCancionGlobal()">➕</button>
-            <button class="btn btn-delete-song btn-rep-action" onclick="guardarRepertorioGlobal()">💾</button>
-          </div>
+          <!-- Contenedor principal de búsqueda + paginación -->
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
 
-        </div> <!-- ✅ CIERRE repertorioSection -->
+            <!-- Contenedor principal de búsqueda + paginación -->
+            <div class="mb-3">
 
+              <!-- FILA 1: Buscador YouTube -->
+              <div id="buscadorYoutubeGlobal" class="d-none d-flex gap-2 align-items-center mb-2">
+                <input type="text"
+                      id="repYoutube"
+                      class="form-control"
+                      placeholder="Buscar en YouTube…"
+                      style="max-width: 260px">
+                <button class="btn btn-soft-primary" onclick="buscarEnYoutubeDesdeModal()">
+                  🔍
+                </button>
+              </div>
+
+              <!-- FILA 2: paginación + acciones -->
+              <div class="d-flex justify-content-between align-items-center">
+
+                <!-- Flechas + contador -->
+                <div id="paginacionRepertorio" class="d-flex align-items-center gap-2" style="white-space: nowrap;">
+                  <button class="btn btn-flecha" onclick="paginaAnterior()">
+                    <i class="bi bi-chevron-left"></i>
+                  </button>
+
+                  <span id="paginaActual">1</span>
+                  <span>/</span>
+                  <span id="totalPaginas">2</span>
+
+                  <button class="btn btn-flecha" onclick="paginaSiguiente()">
+                    <i class="bi bi-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex gap-2 boton-edicion">
+                  <button class="btn btn-app btn-rep-action" onclick="agregarCancionGlobal()">➕</button>
+                  <button class="btn btn-delete-song btn-rep-action" onclick="guardarRepertorioGlobal()">💾</button>
+                </div>
+              </div>
+            </div> <!-- ✅ CIERRE repertorioSection -->
         </div> <!-- ✅ CIERRE section-wrapper -->
         </main> <!-- ✅ CIERRE main -->
     </div>
@@ -294,8 +367,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-danger" onclick="deleteEvent()">Eliminar</button>
-          <button class="btn btn-success" onclick="saveEvent()">Guardar</button>
+          <button id="btnEliminarEvento" class="btn btn-danger" onclick="deleteEvent()">Eliminar</button>
+          <button id="btnGuardarEvento" class="btn btn-success" onclick="saveEvent()">Guardar</button>
         </div>
 
       </div>
@@ -313,3 +386,4 @@
 <script src="js/scripts.js"></script>
 </body>
 </html>
+
