@@ -18,7 +18,7 @@ let musicosPorInstrumento = JSON.parse(localStorage.getItem(LS_MUSICOS_POR_INSTR
   let fechaEditando = null;
 
   let paginaRepertorio = 1;
-  const CANCIONES_POR_PAGINA = 5;
+  const CANCIONES_POR_PAGINA = 10;
   let filtroRepertorio = "";
 
   const LS_REPERTORIO_GLOBAL = "repertorioGlobal";
@@ -30,6 +30,7 @@ let musicosPorInstrumento = JSON.parse(localStorage.getItem(LS_MUSICOS_POR_INSTR
   let repertorios = JSON.parse(localStorage.getItem(LS_REPERTORIO)) || {};
   let diaActual = null;
   let diaAbierto = null;
+  
 
   const modalNuevaFecha = new bootstrap.Modal(document.getElementById('modalNuevaFecha'));
 
@@ -424,16 +425,25 @@ function renderizarRepertorio(fecha) {
   let html = '<ul class="list-group">';
 
   lista.forEach((cancion, i) => {
+    const real = repertorioGlobal[cancion.indexReal];
+    if (!real) return;
+
     html += `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <div>
-          <strong>${cancion.titulo}</strong>
-          ${cancion.tonalidad ? `<small class="ms-2" style="color:#00cfff;">(${cancion.tonalidad})</small>` : ''}
+          <strong>${real.titulo}</strong>
+          ${real.tonalidad ? `<small class="ms-2" style="color:#00cfff;">(${real.tonalidad})</small>` : ''}
         </div>
 
         <div class="d-flex align-items-center gap-2">
-          ${cancion.youtube ? `<button class="btn btn-sm btn-soft-primary" onclick="abrirYoutubeEnModal('${cancion.youtube}')">▶️</button>` : ''}
-          ${cancion.letra ? `<button class="btn btn-sm btn-soft-secondary" onclick="window.open('${cancion.letra}', '_blank')">📄</button>` : ''}
+          ${real.youtube ? `<button class="btn btn-sm btn-soft-primary" onclick="abrirYoutubeEnModal('${real.youtube}')">▶️</button>` : ''}
+          ${real.letra ? `<button class="btn btn-sm btn-soft-secondary" onclick="window.open('${real.letra}', '_blank')">📄</button>` : ''}
+
+          <button class="btn btn-sm"
+            onclick="toggleFavorito(${cancion.indexReal})"
+            title="Favorito">
+            ${repertorioGlobal[cancion.indexReal]?.favorito ? "⭐" : "☆"}
+          </button>
 
           <!-- ❌ SOLO EN MODO EDICIÓN -->
           <button class="btn btn-sm btn-delete-song boton-edicion"
@@ -451,7 +461,7 @@ function renderizarRepertorio(fecha) {
 
 function abrirModalRepertorio(fecha) {
   diaActual = fecha;
-  const container = document.getElementById('bodyModalRepertorio');
+  const container = document.getElementById("bodyModalRepertorio");
 
   const cancionesGlobal = repertorioGlobal;
   const cancionesDia = repertorios[fecha] || [];
@@ -464,17 +474,23 @@ function abrirModalRepertorio(fecha) {
   container.innerHTML = `
     <ul class="list-group">
       ${cancionesGlobal.map((c, i) => {
-        const yaAgregada = cancionesDia.some(cd => cd.titulo === c.titulo);
+
+        // ✅ CLAVE: verificar por indexReal
+        const yaAgregada = cancionesDia.some(
+          cd => cd.indexReal === i
+        );
+
         return `
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <strong>${c.titulo}</strong>
               ${c.tonalidad ? `<small class="ms-2">(${c.tonalidad})</small>` : ""}
             </div>
+
             <div>
               ${
                 yaAgregada
-                  ? `<span class="badge bg-success">Agregada</span>`
+                  ? `<span class="badge bg-success">✔</span>`
                   : `<button class="btn btn-sm btn-app"
                         onclick="agregarCancionADia(${i})">
                         ➕
@@ -487,12 +503,12 @@ function abrirModalRepertorio(fecha) {
     </ul>
   `;
 
-  const modalRepertorio = bootstrap.Modal.getOrCreateInstance(
-    document.getElementById('modalRepertorio')
-    );
-  modalRepertorio.show();
-
+  const modal = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById("modalRepertorio")
+  );
+  modal.show();
 }
+
 
 function agregarCancionADia(indexGlobal){
   if(!modoEdicionActivo) return;
@@ -504,7 +520,10 @@ function agregarCancionADia(indexGlobal){
   const existe = repertorios[diaActual].some(c => c.titulo === cancion.titulo);
   if(existe) return alert("Esa canción ya está en el repertorio del día");
 
-  repertorios[diaActual].push({...cancion});
+  repertorios[diaActual].push({
+    indexReal: indexGlobal
+  });
+
 
   localStorage.setItem(LS_REPERTORIO, JSON.stringify(repertorios));
 
@@ -627,6 +646,7 @@ function renderizarAgenda() {
               <div class="card-header d-flex justify-content-between align-items-center">
                 <strong>🎤 Músicos</strong>
                 <div class="d-flex gap-2">
+                
                   <button class="btn btn-app boton-edicion"
                     onclick="abrirModalMusicos('${fecha}')">
                     Editar músicos
@@ -807,9 +827,17 @@ function cerrarYoutubeModal() {
 }
 
 function extraerIdYoutube(url) {
-  const regExp = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([\w-]{11})/;
-  const match = url.match(regExp);
-  return match ? match[1] : null;
+  if (!url) return null;
+
+  if (url.includes("v=")) {
+    return url.split("v=")[1].split("&")[0];
+  }
+
+  if (url.includes("youtu.be/")) {
+    return url.split("youtu.be/")[1].split("?")[0];
+  }
+
+  return null;
 }
 
 let modoEdicionActivo = false;
@@ -821,6 +849,7 @@ function activarModoEdicion() {
   document.getElementById('btnSalirEdicion').classList.remove('d-none');
 
   actualizarEstadoImportant();
+  actualizarBuscadorYoutubeGlobal();
   renderRepertorioGlobal();
   renderCalendar(); // 🔥 FORZAR reconstrucción del calendario
 }
@@ -832,6 +861,7 @@ function desactivarModoEdicion() {
   document.getElementById('btnSalirEdicion').classList.add('d-none');
 
   actualizarEstadoImportant();
+  actualizarBuscadorYoutubeGlobal();
   modoEdicionActivo = false;
   renderRepertorioGlobal();
 
@@ -972,8 +1002,8 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
 
 // CALENDARIO*********************************************************************************************CALENDARIO
 
-
 function showSection(section) {
+  document.getElementById("homeSection").style.display = "none";
   document.getElementById("lobbySection").style.display = "none";
   document.getElementById("agendaSection").style.display = "none";
   document.getElementById("calendarSection").style.display = "none";
@@ -981,6 +1011,11 @@ function showSection(section) {
 
   // 🔒 ocultar siempre el botón
   document.getElementById("btnAgregarDia").classList.add("d-none");
+
+  if (section === "home") {
+    document.getElementById("homeSection").style.display = "block";
+    renderHome?.(); // opcional, si existe
+  }
 
   if (section === "lobby") {
     document.getElementById("lobbySection").style.display = "block";
@@ -1020,7 +1055,8 @@ function renderCalendar() {
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  monthYear.textContent = date.toLocaleString("es-ES", { month: "long", year: "numeric" });
+  monthYear.textContent = date.toLocaleString("es-ES", { month: "long", year: "numeric" })
+  .toUpperCase();
 
   daysContainer.innerHTML = "";
 
@@ -1037,7 +1073,9 @@ function renderCalendar() {
 
     daysContainer.innerHTML += `
       <div class="day ${modoEdicionActivo ? 'editable' : ''}"
-          ${modoEdicionActivo ? `onclick="openModal('${fullDate}')"` : ''}>
+        onclick="${modoEdicionActivo 
+          ? `openModal('${fullDate}')` 
+          : `verEvento('${fullDate}')`}">
         <strong>${d}</strong>
         ${event ? `<div class="event">${event.time} - ${event.text}</div>` : ""}
       </div>
@@ -1045,13 +1083,41 @@ function renderCalendar() {
   }
 }
 
+function verEvento(fecha){
+  const e = events[fecha];
+  if(!e) return;
+
+  const modal = new bootstrap.Modal(document.getElementById("eventModal"));
+
+  document.getElementById("eventText").value = e.text;
+  document.getElementById("eventTime").value = e.time;
+
+  // bloquear edición
+  document.getElementById("eventText").disabled = true;
+  document.getElementById("eventTime").disabled = true;
+
+  // ocultar botones
+  document.getElementById("btnEliminarEvento").style.display = "none";
+  document.getElementById("btnGuardarEvento").style.display = "none";
+
+  modal.show();
+}
+
 function openModal(dateStr){
   if (!modoEdicionActivo) return;
+
   selectedDate = dateStr;
   const modal = new bootstrap.Modal(document.getElementById("eventModal"));
 
+  document.getElementById("eventText").disabled = false;
+  document.getElementById("eventTime").disabled = false;
+
   document.getElementById("eventText").value = events[dateStr]?.text || "";
   document.getElementById("eventTime").value = events[dateStr]?.time || "";
+
+  // mostrar botones
+  document.getElementById("btnEliminarEvento").style.display = "inline-block";
+  document.getElementById("btnGuardarEvento").style.display = "inline-block";
 
   modal.show();
 }
@@ -1097,7 +1163,7 @@ renderCalendar();
 // LOBBY*********************************************************************************************LOBBY
 
 document.addEventListener("DOMContentLoaded", () => {
-  showSection("lobby");
+  showSection("home");
 });
 
 function renderWeeklyEvents() {
@@ -1255,6 +1321,11 @@ function renderRepertorioGlobal() {
             <strong class="text-truncate">${c.titulo}</strong>
 
             <div class="d-flex gap-2">
+              <button class="btn btn-sm"
+                onclick="toggleFavorito(${c.indexReal})">
+                <i class="bi bi-star${c.favorito ? '-fill text-warning' : ''}"></i>
+              </button>
+
               ${c.youtube ? `
                 <button class="btn btn-sm btn-soft-primary"
                   onclick="abrirYoutubeEnModal('${c.youtube}')">▶️</button>
@@ -1306,6 +1377,12 @@ function renderRepertorioGlobal() {
           </div>
 
           <!-- 🎵 BOTONES -->
+          <button class="btn btn-sm btn-fav"
+            onclick="toggleFavorito(${c.indexReal})"
+            title="Favorito">
+            <i class="bi bi-star${c.favorito ? '-fill text-warning' : ''}"></i>
+          </button>
+
           <div class="col-md-2 d-flex gap-1 justify-content-end flex-wrap">
 
             ${c.youtube ? `
@@ -1337,8 +1414,6 @@ function renderRepertorioGlobal() {
   );
 }
 
-
-
 function agregarCancionGlobal(){
   if(!modoEdicionActivo) return;
 
@@ -1350,12 +1425,12 @@ function agregarCancionGlobal(){
     titulo: "",
     tonalidad: "",
     youtube: "",
-    letra: ""
+    letra: "",
+    favorito: false,
+    plays: 0
   });
-
   renderRepertorioGlobal();
 }
-
 
 function guardarRepertorioGlobal(){
   if(!modoEdicionActivo) return;
@@ -1378,9 +1453,7 @@ function eliminarCancionGlobal(index){
 
 function quitarCancionDelDia(fecha, index){
   if(!modoEdicionActivo) return;
-
-  if(!confirm("¿Quitar esta canción del repertorio del día?")) return;
-
+  
   repertorios[fecha].splice(index, 1);
   localStorage.setItem(LS_REPERTORIO, JSON.stringify(repertorios));
 
@@ -1397,10 +1470,14 @@ function sincronizarRepertorioDesdeInputs(){
     const youtube = b.querySelector(".youtube")?.value.trim();
     const letra = b.querySelector(".letra")?.value.trim();
 
-    const indexReal = (paginaRepertorio - 1) * CANCIONES_POR_PAGINA + i;
-
     if (repertorioGlobal[indexReal]) {
-      repertorioGlobal[indexReal] = { titulo, tonalidad, youtube, letra };
+      repertorioGlobal[indexReal] = {
+        ...repertorioGlobal[indexReal], // 👈 conserva favorito, plays, etc
+        titulo,
+        tonalidad,
+        youtube,
+        letra
+      };
     }
   });
 
@@ -1423,20 +1500,24 @@ function renderPaginacionRepertorio(totalPaginas) {
   if (totalPaginas <= 1) return;
 
   cont.innerHTML = `
-    <div class="d-flex align-items-center gap-2">
-      <button class="btn btn-sm btn-outline-primary"
+    <div class="d-flex align-items-center gap-2 mt-3">
+
+      <button class="btn btn-flecha"
         ${paginaRepertorio === 1 ? "disabled" : ""}
         onclick="cambiarPaginaRepertorio(-1)">
-        ⬅️
+        <i class="bi bi-chevron-left"></i>
       </button>
 
-      <span>Página ${paginaRepertorio} de ${totalPaginas}</span>
+      <span id="paginaActual" class="fw-bold">
+        ${paginaRepertorio} / ${totalPaginas}
+      </span>
 
-      <button class="btn btn-sm btn-outline-primary"
+      <button class="btn btn-flecha"
         ${paginaRepertorio === totalPaginas ? "disabled" : ""}
         onclick="cambiarPaginaRepertorio(1)">
-        ➡️
+        <i class="bi bi-chevron-right"></i>
       </button>
+
     </div>
   `;
 }
@@ -1445,3 +1526,212 @@ function cambiarPaginaRepertorio(delta) {
   paginaRepertorio += delta;
   renderRepertorioGlobal();
 }
+
+function actualizarBuscadorYoutubeGlobal() {
+  const box = document.getElementById("buscadorYoutubeGlobal");
+  if (!box) return;
+
+  box.classList.toggle("d-none", !modoEdicionActivo);
+}
+
+function buscarEnYoutubeDesdeModal() {
+  const input = document.getElementById("repYoutube");
+
+  if (!input) {
+    console.warn("No se encontró el input repYoutube");
+    return;
+  }
+
+  const valor = input.value.trim();
+  if (!valor) {
+    alert("Ingresá un link o texto para buscar en YouTube");
+    return;
+  }
+
+  // 👉 Si es URL, abrir directo
+  if (valor.startsWith("http")) {
+    window.open(valor, "_blank");
+    return;
+  }
+
+  // 👉 Si es texto, buscar en YouTube
+  const query = encodeURIComponent(valor);
+  const url = `https://www.youtube.com/results?search_query=${query}`;
+  window.open(url, "_blank");
+}
+
+
+
+// HOME**********************************************************************************Home
+
+function playFromHome(index) {
+  const cancion = repertorioGlobal[index];
+  if (!cancion || !cancion.youtube) return;
+
+  const videoId = extraerIdYoutube(cancion.youtube);
+  if (!videoId) return;
+
+  // ▶ reproducir
+  const frame = document.getElementById("homeYoutubeFrame");
+  frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+  document.getElementById("homePlayer").classList.remove("d-none");
+
+  // 🔥 contador real
+  cancion.plays = (cancion.plays || 0) + 1;
+
+  localStorage.setItem(
+    LS_REPERTORIO_GLOBAL,
+    JSON.stringify(repertorioGlobal)
+  );
+
+  renderHomeMasEscuchadas();
+}
+
+function renderHome() {
+  const container = document.getElementById("homeCards");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  repertorioGlobal
+    .map((c, index) => ({ ...c, indexReal: index })) // 👈 guardamos índice real
+    .filter(c => c.youtube)                          // 👈 solo con YouTube
+    .slice(0, 6)
+    .forEach(c => {
+
+      const videoId = extraerIdYoutube(c.youtube);
+      if (!videoId) return;
+
+      container.innerHTML += `
+        <div class="col-6 col-md-2">
+          <div class="card h-100">
+
+            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
+                 class="card-img-top video-thumb">
+
+            <div class="card-body text-center d-flex flex-column gap-2">
+              <strong class="video-title">${c.titulo}</strong>
+
+              <button class="btn btn-sm btn-dark mx-auto"
+                onclick="playFromHome(${c.indexReal})">
+                ▶
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+}
+
+function asegurarPlayCount(cancion) {
+  if (typeof cancion.plays !== "number") {
+    cancion.plays = 0;
+  }
+}
+
+function renderHomeMasEscuchadas() {
+  const cont = document.getElementById("homeMasEscuchadas");
+  if (!cont) return;
+
+  cont.innerHTML = "";
+
+  const canciones = repertorioGlobal
+    .map((c, index) => ({
+      ...c,
+      indexReal: index,
+      plays: c.plays || 0
+    }))
+    .filter(c => c.youtube)
+    .sort((a, b) => b.plays - a.plays)
+    .slice(0, 6);
+
+  if (canciones.length === 0) {
+    cont.innerHTML = "<em>No hay reproducciones aún</em>";
+    return;
+  }
+
+  canciones.forEach(c => {
+    const videoId = extraerIdYoutube(c.youtube);
+
+    cont.innerHTML += `
+      <div class="col-6 col-md-2">
+        <div class="card h-100">
+          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
+               class="card-img-top video-thumb">
+
+          <div class="card-body">
+            <h6 class="card-title">${c.titulo}</h6>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-sm btn-dark"
+                onclick="playFromHome(${c.indexReal})">
+                ▶
+              </button>
+
+              <small>🔥 ${c.plays}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderHome();              // 👈 FALTABA ESTO
+  renderHomeMasEscuchadas();
+});
+
+function toggleFavorito(indexReal) {
+  repertorioGlobal[indexReal].favorito =
+    !repertorioGlobal[indexReal].favorito;
+
+  localStorage.setItem(
+    LS_REPERTORIO_GLOBAL,
+    JSON.stringify(repertorioGlobal)
+  );
+
+  renderRepertorioGlobal();
+  renderHomeFavoritos();
+}
+
+function renderHomeFavoritos() {
+  const container = document.getElementById("homeFavoritos");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const favoritos = repertorioGlobal
+    .map((c, i) => ({ ...c, indexReal: i }))
+    .filter(c => c.favorito && c.youtube);
+
+  if (favoritos.length === 0) {
+    container.innerHTML = `<p class="text-muted">No hay favoritos aún ⭐</p>`;
+    return;
+  }
+
+  favoritos.forEach(c => {
+    const videoId = extraerIdYoutube(c.youtube);
+    if (!videoId) return;
+
+    container.innerHTML += `
+      <div class="col-6 col-md-2">
+        <div class="card h-100">
+          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
+               class="card-img-top video-thumb">
+
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <strong>${c.titulo}</strong>
+
+            <button class="btn btn-sm btn-dark"
+              onclick="playFromHome(${c.indexReal})">
+              ▶
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
