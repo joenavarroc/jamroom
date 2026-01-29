@@ -1407,3 +1407,17 @@ body:not(.modo-edicion) .boton-edicion {
   }
 }
 
+#homeFavoritos {
+  max-height: 180px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.4);
+}
+
+#homeFavoritos::-webkit-scrollbar {
+  width: 6px;
+}
+#homeFavoritos::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
