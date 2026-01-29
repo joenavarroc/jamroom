@@ -436,7 +436,7 @@ function renderizarRepertorio(fecha) {
         </div>
 
         <div class="d-flex align-items-center gap-2">
-          ${real.youtube ? `<button class="btn btn-sm btn-soft-primary" onclick="abrirYoutubeEnModal('${real.youtube}')">▶️</button>` : ''}
+          ${real.youtube ? `<button class="btn btn-sm btn-soft-primary" onclick="abrirYoutubeEnModal('${real.youtube}', ${cancion.indexReal})">▶️</button>` : ''}
           ${real.letra ? `<button class="btn btn-sm btn-soft-secondary" onclick="window.open('${real.letra}', '_blank')">📄</button>` : ''}
 
           <button class="btn btn-sm"
@@ -447,7 +447,7 @@ function renderizarRepertorio(fecha) {
 
           <!-- ❌ SOLO EN MODO EDICIÓN -->
           <button class="btn btn-sm btn-delete-song boton-edicion"
-            onclick="quitarCancionDelDia('${fecha}', ${i})">
+            onclick="quitarCancionDelDia(event, '${fecha}', ${i}, this)">
             ❌
           </button>
         </div>
@@ -492,7 +492,7 @@ function abrirModalRepertorio(fecha) {
                 yaAgregada
                   ? `<span class="badge bg-success">✔</span>`
                   : `<button class="btn btn-sm btn-app"
-                        onclick="agregarCancionADia(${i})">
+                        onclick="agregarCancionADia(event, ${i}, this)">
                         ➕
                     </button>`
               }
@@ -509,26 +509,61 @@ function abrirModalRepertorio(fecha) {
   modal.show();
 }
 
-
-function agregarCancionADia(indexGlobal){
+function agregarCancionADia(event, indexGlobal, boton){
   if(!modoEdicionActivo) return;
 
-  const cancion = repertorioGlobal[indexGlobal];
+  event.preventDefault();
+  event.stopPropagation(); // ⛔ evita scroll / collapse
+
   if(!repertorios[diaActual]) repertorios[diaActual] = [];
 
   // evitar duplicados
-  const existe = repertorios[diaActual].some(c => c.titulo === cancion.titulo);
+  const existe = repertorios[diaActual].some(c => c.indexReal === indexGlobal);
   if(existe) return alert("Esa canción ya está en el repertorio del día");
 
   repertorios[diaActual].push({
     indexReal: indexGlobal
   });
 
-
   localStorage.setItem(LS_REPERTORIO, JSON.stringify(repertorios));
 
-  abrirModalRepertorio(diaActual); // refresca modal
-  renderizarAgenda(); // refresca agenda
+  // ✅ cambiar solo el botón ➕ por ✔
+  boton.outerHTML = `<span class="badge bg-success">✔</span>`;
+
+  // ✅ agregar SOLO el <li> nuevo al repertorio visual del día
+  const fechaId = diaActual.replace(/-/g,'_');
+  const ul = document.querySelector(`#repertorio_${fechaId} ul`);
+
+  if(ul){
+    const real = repertorioGlobal[indexGlobal];
+
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+    li.innerHTML = `
+      <div>
+        <strong>${real.titulo}</strong>
+        ${real.tonalidad ? `<small class="ms-2" style="color:#00cfff;">(${real.tonalidad})</small>` : ''}
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        ${real.youtube ? `<button class="btn btn-sm btn-soft-primary" onclick="abrirYoutubeEnModal('${real.youtube}', ${cancion.indexReal})">▶️</button>` : ''}
+        ${real.letra ? `<button class="btn btn-sm btn-soft-secondary" onclick="window.open('${real.letra}', '_blank')">📄</button>` : ''}
+
+        <button class="btn btn-sm"
+          onclick="toggleFavorito(${indexGlobal})">
+          ${repertorioGlobal[indexGlobal]?.favorito ? "⭐" : "☆"}
+        </button>
+
+        <button class="btn btn-sm btn-delete-song boton-edicion"
+          onclick="quitarCancionDelDia(event, '${diaActual}', ${repertorios[diaActual].length-1}, this)">
+          ❌
+        </button>
+      </div>
+    `;
+
+    ul.appendChild(li);
+  }
 }
 
 function agregarCancion() {
@@ -811,15 +846,31 @@ function idDomSafe(texto) {
   return texto.replace(/\W+/g, '_');
 }
 
-function abrirYoutubeEnModal(url) {
+function abrirYoutubeEnModal(url, index) {
   const videoId = extraerIdYoutube(url);
   if (!videoId) {
     alert("URL de YouTube inválida.");
     return;
   }
+
+  // 🔥 SUMAR PLAY
+  if (typeof index === "number") {
+    repertorioGlobal[index].plays = (repertorioGlobal[index].plays || 0) + 1;
+
+    localStorage.setItem(
+      LS_REPERTORIO_GLOBAL,
+      JSON.stringify(repertorioGlobal)
+    );
+
+    renderHome(); // refresca ranking
+  }
+
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
   document.getElementById("youtubeFrame").src = embedUrl;
-  new bootstrap.Modal(document.getElementById("modalYoutubePlayer")).show();
+
+  new bootstrap.Modal(
+    document.getElementById("modalYoutubePlayer")
+  ).show();
 }
 
 function cerrarYoutubeModal() {
@@ -1328,7 +1379,7 @@ function renderRepertorioGlobal() {
 
               ${c.youtube ? `
                 <button class="btn btn-sm btn-soft-primary"
-                  onclick="abrirYoutubeEnModal('${c.youtube}')">▶️</button>
+                  onclick="abrirYoutubeEnModal('${c.youtube}', ${c.indexReal})">▶️</button>
               ` : ""}
 
               ${c.letra ? `
@@ -1387,7 +1438,7 @@ function renderRepertorioGlobal() {
 
             ${c.youtube ? `
               <button class="btn btn-sm btn-soft-primary"
-                onclick="abrirYoutubeEnModal('${c.youtube}')">▶️</button>
+                onclick="abrirYoutubeEnModal('${c.youtube}', ${c.indexReal})">▶️</button>
             ` : ""}
 
             ${c.letra ? `
@@ -1451,13 +1502,18 @@ function eliminarCancionGlobal(index){
   renderRepertorioGlobal();
 }
 
-function quitarCancionDelDia(fecha, index){
+function quitarCancionDelDia(event, fecha, index, boton){
   if(!modoEdicionActivo) return;
-  
+
+  event.preventDefault();
+  event.stopPropagation(); // ⛔ evita que Bootstrap colapse y salte
+
   repertorios[fecha].splice(index, 1);
   localStorage.setItem(LS_REPERTORIO, JSON.stringify(repertorios));
 
-  renderizarAgenda();
+  // 🧠 borrar SOLO el li visual (sin renderizar todo)
+  const li = boton.closest("li");
+  if(li) li.remove();
 }
 
 function sincronizarRepertorioDesdeInputs(){
@@ -1470,9 +1526,9 @@ function sincronizarRepertorioDesdeInputs(){
     const youtube = b.querySelector(".youtube")?.value.trim();
     const letra = b.querySelector(".letra")?.value.trim();
 
-    if (repertorioGlobal[indexReal]) {
-      repertorioGlobal[indexReal] = {
-        ...repertorioGlobal[indexReal], // 👈 conserva favorito, plays, etc
+    if (repertorioGlobal[i]) {
+      repertorioGlobal[i] = {
+        ...repertorioGlobal[i], // 👈 conserva favorito, plays, etc
         titulo,
         tonalidad,
         youtube,
@@ -1585,7 +1641,7 @@ function playFromHome(index) {
     JSON.stringify(repertorioGlobal)
   );
 
-  renderHomeMasEscuchadas();
+  renderHome();;
 }
 
 function renderHome() {
@@ -1594,34 +1650,58 @@ function renderHome() {
 
   container.innerHTML = "";
 
-  repertorioGlobal
-    .map((c, index) => ({ ...c, indexReal: index })) // 👈 guardamos índice real
-    .filter(c => c.youtube)                          // 👈 solo con YouTube
-    .slice(0, 6)
-    .forEach(c => {
+  // 🔥 ordenar por plays
+  const masEscuchados = repertorioGlobal
+    .map((c, index) => ({ ...c, indexReal: index })) // guardo índice real
+    .filter(c => c.youtube)
+    .sort((a,b) => (b.plays || 0) - (a.plays || 0))
+    .slice(0, 6);
 
+  const ultimosAgregados = repertorioGlobal
+    .map((c, index) => ({ ...c, indexReal: index }))
+    .filter(c => c.youtube)
+    .slice(-6)
+    .reverse();
+
+  // 🔹 Renderizo los más escuchados
+  masEscuchados.forEach(c => {
+    const videoId = extraerIdYoutube(c.youtube);
+    if (!videoId) return;
+
+    container.innerHTML += `
+      <div class="col-6 col-md-2">
+        <div class="card h-100">
+          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" class="card-img-top video-thumb">
+          <div class="card-body text-center d-flex flex-column gap-2">
+            <strong class="video-title">${c.titulo}</strong>
+            <button class="btn btn-sm btn-dark mx-auto" onclick="playFromHome(${c.indexReal})">▶</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // 🔹 Renderizo los últimos agregados en otro contenedor
+  const containerUltimos = document.getElementById("ultimosCards");
+  if (containerUltimos) {
+    containerUltimos.innerHTML = "";
+    ultimosAgregados.forEach(c => {
       const videoId = extraerIdYoutube(c.youtube);
       if (!videoId) return;
 
-      container.innerHTML += `
+      containerUltimos.innerHTML += `
         <div class="col-6 col-md-2">
           <div class="card h-100">
-
-            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
-                 class="card-img-top video-thumb">
-
+            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" class="card-img-top video-thumb">
             <div class="card-body text-center d-flex flex-column gap-2">
               <strong class="video-title">${c.titulo}</strong>
-
-              <button class="btn btn-sm btn-dark mx-auto"
-                onclick="playFromHome(${c.indexReal})">
-                ▶
-              </button>
+              <button class="btn btn-sm btn-dark mx-auto" onclick="playFromHome(${c.indexReal})">▶</button>
             </div>
           </div>
         </div>
       `;
     });
+  }
 }
 
 function asegurarPlayCount(cancion) {
@@ -1687,6 +1767,8 @@ function toggleFavorito(indexReal) {
   repertorioGlobal[indexReal].favorito =
     !repertorioGlobal[indexReal].favorito;
 
+  sincronizarRepertorioDesdeInputs();
+  
   localStorage.setItem(
     LS_REPERTORIO_GLOBAL,
     JSON.stringify(repertorioGlobal)
@@ -1734,4 +1816,3 @@ function renderHomeFavoritos() {
     `;
   });
 }
-
