@@ -114,6 +114,18 @@ document.getElementById('btnEliminarFecha').addEventListener('click', () => {
   renderizarAgenda();
 });
 
+  function guardarRepertorioGlobal() {
+    try {
+      localStorage.setItem(
+        LS_REPERTORIO_GLOBAL,
+        JSON.stringify(repertorioGlobal)
+      );
+    } catch (e) {
+      alert("⚠️ Memoria del navegador llena.\nBorrá algunas canciones largas (letras) o favoritos.");
+      console.error("Error guardando repertorio:", e);
+    }
+  }
+
   function formatearFecha(fecha) {
     const [year, month, day] = fecha.split('-');
     return `${day}/${month}/${year}`;
@@ -613,7 +625,11 @@ function agregarCancion() {
 }
 
 document.getElementById('guardarRepertorioBtn').addEventListener('click', () => {
-  // solo cerrar modal, NO tocar datos
+  if(!modoEdicionActivo) return;
+
+  sincronizarRepertorioDesdeInputs();
+  guardarRepertorioGlobal();
+
   renderizarAgenda();
 
   const modalRepertorio = bootstrap.Modal.getOrCreateInstance(
@@ -906,6 +922,10 @@ function activarModoEdicion() {
 }
 
 function desactivarModoEdicion() {
+  // ✅ primero copiar inputs → array
+  sincronizarRepertorioDesdeInputs();
+  guardarRepertorioGlobal();
+
   modoEdicionActivo = false;
   document.body.classList.remove('modo-edicion');
   document.getElementById('btnModoEdicion').classList.remove('d-none');
@@ -913,10 +933,10 @@ function desactivarModoEdicion() {
 
   actualizarEstadoImportant();
   actualizarBuscadorYoutubeGlobal();
-  modoEdicionActivo = false;
-  renderRepertorioGlobal();
 
+  renderRepertorioGlobal(); // ahora sí
 }
+
 
 document.getElementById('btnSalirEdicion').addEventListener('click', desactivarModoEdicion);
 
@@ -1459,10 +1479,6 @@ function renderRepertorioGlobal() {
 
   renderPaginacionRepertorio(totalPaginas);
 
-  localStorage.setItem(
-    LS_REPERTORIO_GLOBAL,
-    JSON.stringify(repertorioGlobal)
-  );
 }
 
 function agregarCancionGlobal(){
@@ -1480,15 +1496,6 @@ function agregarCancionGlobal(){
     favorito: false,
     plays: 0
   });
-  renderRepertorioGlobal();
-}
-
-function guardarRepertorioGlobal(){
-  if(!modoEdicionActivo) return;
-
-  sincronizarRepertorioDesdeInputs();
-
-  alert("✅ Repertorio global guardado");
   renderRepertorioGlobal();
 }
 
@@ -1522,27 +1529,20 @@ function sincronizarRepertorioDesdeInputs(){
 
   bloques.forEach((b) => {
     const indexReal = parseInt(b.dataset.index);
+    if (isNaN(indexReal)) return;
 
-    const titulo = b.querySelector(".titulo")?.value.trim();
-    const tonalidad = b.querySelector(".tonalidad")?.value.trim();
-    const youtube = b.querySelector(".youtube")?.value.trim();
-    const letra = b.querySelector(".letra")?.value.trim();
+    const titulo = b.querySelector(".titulo")?.value.trim() || "";
+    const tonalidad = b.querySelector(".tonalidad")?.value.trim() || "";
+    const youtube = b.querySelector(".youtube")?.value.trim() || "";
+    const letra = b.querySelector(".letra")?.value.trim() || "";
 
-    if (repertorioGlobal[indexReal]) {
-      repertorioGlobal[indexReal] = {
-        ...repertorioGlobal[indexReal], // conserva favorito, plays, etc
-        titulo,
-        tonalidad,
-        youtube,
-        letra
-      };
-    }
+    if (!repertorioGlobal[indexReal]) return;
+
+    repertorioGlobal[indexReal].titulo = titulo;
+    repertorioGlobal[indexReal].tonalidad = tonalidad;
+    repertorioGlobal[indexReal].youtube = youtube;
+    repertorioGlobal[indexReal].letra = letra;
   });
-
-  localStorage.setItem(
-    LS_REPERTORIO_GLOBAL,
-    JSON.stringify(repertorioGlobal)
-  );
 }
 
 function buscarRepertorio(texto) {
