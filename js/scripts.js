@@ -1366,7 +1366,7 @@ function renderRepertorioGlobal() {
     // 👉 MOBILE + NO EDICIÓN = vista compacta
     if (esMobile && !modoEdicionActivo) {
       cont.innerHTML += `
-        <div class="modal-bloque">
+        <div class="modal-bloque" data-index="${c.indexReal}">
           <div class="d-flex justify-content-between align-items-center">
 
             <strong class="text-truncate">${c.titulo}</strong>
@@ -1396,7 +1396,7 @@ function renderRepertorioGlobal() {
 
     // 👉 DESKTOP o MODO EDICIÓN = vista completa
     cont.innerHTML += `
-      <div class="modal-bloque">
+      <div class="modal-bloque" data-index="${c.indexReal}">
         <div class="row g-2 align-items-end">
 
           <div class="col-md-3">
@@ -1520,15 +1520,17 @@ function sincronizarRepertorioDesdeInputs(){
   const cont = document.getElementById("repertorioGlobalList");
   const bloques = cont.querySelectorAll(".modal-bloque");
 
-  bloques.forEach((b, i) => {
+  bloques.forEach((b) => {
+    const indexReal = parseInt(b.dataset.index);
+
     const titulo = b.querySelector(".titulo")?.value.trim();
     const tonalidad = b.querySelector(".tonalidad")?.value.trim();
     const youtube = b.querySelector(".youtube")?.value.trim();
     const letra = b.querySelector(".letra")?.value.trim();
 
-    if (repertorioGlobal[i]) {
-      repertorioGlobal[i] = {
-        ...repertorioGlobal[i], // 👈 conserva favorito, plays, etc
+    if (repertorioGlobal[indexReal]) {
+      repertorioGlobal[indexReal] = {
+        ...repertorioGlobal[indexReal], // conserva favorito, plays, etc
         titulo,
         tonalidad,
         youtube,
@@ -1761,6 +1763,7 @@ function renderHomeMasEscuchadas() {
 document.addEventListener("DOMContentLoaded", () => {
   renderHome();              // 👈 FALTABA ESTO
   renderHomeMasEscuchadas();
+  renderHomeFavoritos();
 });
 
 function toggleFavorito(indexReal) {
@@ -1778,6 +1781,8 @@ function toggleFavorito(indexReal) {
   renderHomeFavoritos();
 }
 
+let favoritoActual = null;
+
 function renderHomeFavoritos() {
   const container = document.getElementById("homeFavoritos");
   if (!container) return;
@@ -1793,26 +1798,50 @@ function renderHomeFavoritos() {
     return;
   }
 
-  favoritos.forEach(c => {
-    const videoId = extraerIdYoutube(c.youtube);
-    if (!videoId) return;
-
-    container.innerHTML += `
-      <div class="col-6 col-md-2">
-        <div class="card h-100">
-          <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
-               class="card-img-top video-thumb">
-
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <strong>${c.titulo}</strong>
-
+  container.innerHTML = `
+    <ul class="list-group">
+      ${favoritos.map(c => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>🎵 ${c.titulo}</span>
+          <div class="d-flex gap-2">
             <button class="btn btn-sm btn-dark"
-              onclick="playFromHome(${c.indexReal})">
-              ▶
-            </button>
+              onclick="playFromFavoritos(${c.indexReal})">▶</button>
+            <button class="btn btn-sm btn-secondary"
+              onclick="pauseFavorito()">⏸</button>
           </div>
-        </div>
-      </div>
-    `;
-  });
+        </li>
+      `).join("")}
+    </ul>
+  `;
+}
+
+function pauseFavorito() {
+  const frame = document.getElementById("homeYoutubeFrameFav");
+  frame.src = ""; // corta reproducción
+}
+
+function playFromFavoritos(index) {
+  const cancion = repertorioGlobal[index];
+  if (!cancion || !cancion.youtube) return;
+
+  const videoId = extraerIdYoutube(cancion.youtube);
+  if (!videoId) return;
+
+  // ⛔ apagar player de video normal
+  const videoFrame = document.getElementById("homeYoutubeFrame");
+  videoFrame.src = "";
+
+  // ▶ reproducir SOLO AUDIO (favoritos)
+  const frame = document.getElementById("homeYoutubeFrameFav");
+  frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+  // sumar play
+  cancion.plays = (cancion.plays || 0) + 1;
+
+  localStorage.setItem(
+    LS_REPERTORIO_GLOBAL,
+    JSON.stringify(repertorioGlobal)
+  );
+
+  renderHomeMasEscuchadas();
 }
