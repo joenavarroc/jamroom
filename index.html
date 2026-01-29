@@ -74,11 +74,11 @@
         <!-- 🏠 HOME SECTION -->
         <div id="homeSection" style="display:none">
 
-            <h3 class="mb-3">🔥 Más escuchadas</h3>
-            <div class="row g-3 mb-5" id="homeMasEscuchadas"></div>
-
             <h3 class="mb-3">⭐ Favoritos</h3>
             <div class="row g-3 mb-5" id="homeFavoritos"></div>
+
+            <h3 class="mb-3">🔥 Más escuchadas</h3>
+            <div class="row g-3 mb-5" id="homeMasEscuchadas"></div>
 
             <h3 class="mb-3">🆕 Últimos agregados</h3>
             <div class="row g-3 mb-5" id="homeCards"></div>
@@ -93,6 +93,11 @@
                 </iframe>
               </div>
             </div>
+            <!-- 🎵 PLAYER FAVORITOS (solo audio) -->
+            <iframe id="homeYoutubeFrameFav"
+                    allow="autoplay; encrypted-media"
+                    style="width:0;height:0;border:0;visibility:hidden"></iframe>
+
 
           </div>
 
@@ -386,4 +391,3 @@
 <script src="js/scripts.js"></script>
 </body>
 </html>
-
