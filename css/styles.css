@@ -1,51 +1,64 @@
- html {
+html {
   overflow-y: scroll;
 }
     
     
     :root {
-      --bg-body: #0b0f19;
-      --bg-card: #161c2d;
-      --primary-accent: #3b82f6; /* Azul moderno */
-      --secondary-accent: #06b6d4; /* Cian */
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --glass-border: rgba(255, 255, 255, 0.08);
-    }
+  /* Fondo general */
+  --bg-body: #f4eef2;
+  --bg-gradient-1: #f7e9f2;
+  --bg-gradient-2: #eef2f7;
 
-    body {
-      background-color: var(--bg-body);
-      background-image: radial-gradient(circle at top right, #1e293b, #0b0f19);
-      color: var(--text-main);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);                               
-    }
+  /* Cards / Glass */
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.45);
 
-    /* Contenedor con efecto cristal */
-    .container-glass {
-      background: rgba(22, 28, 45, 0.7);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 2rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      margin-top: 2rem;
-    }
+  /* Acentos */
+  --primary-accent: #a78bfa;     /* violeta pastel */
+  --secondary-accent: #67e8f9;   /* celeste pastel */
+  --accent-pink: #f9a8d4;
 
-    .subtitle {
-  color: #cbd5f5;
-  font-size: .95rem;
-  opacity: .85;
+  /* Texto */
+  --text-main: #4b5563;
+  --text-strong: #374151;
+  --text-muted: #9ca3af;
 }
 
-    h1 {
-      font-weight: 700;
-      letter-spacing: -1px;
-      background: linear-gradient(to right, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+
+  background:
+    radial-gradient(circle at top right, #fde2f3, transparent 60%),
+    radial-gradient(circle at bottom left, #e0f2fe, transparent 60%),
+    linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+}
+
+
+/* Contenedor con efecto cristal */
+.container-glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+}
+
+.subtitle {
+  color: var(--text-muted);
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-strong);
+}
 
     .col-lista {
   width: 100%;
@@ -64,18 +77,13 @@
 
 /* === BOTONES MODERNOS COMPACTOS === */
 .btn-app {
-  min-width: 160px;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
   color: white;
-  border: none;
-  box-shadow: 0 4px 10px rgba(59,130,246,.35);
-  transition: all .2s ease;
+  border-radius: 14px;
+  font-weight: 600;
 
+  box-shadow:
+    0 8px 20px rgba(167,139,250,.35);
   display: inline-flex;        /* 👈 CLAVE */
   align-items: center;         /* 👈 centra vertical */
   justify-content: center;     /* 👈 centra horizontal */
@@ -84,7 +92,7 @@
 
 .btn-app:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(59,130,246,.55);
+  box-shadow: 0 12px 28px rgba(167,139,250,.45);
 }
 
 .btn-app-outline {
@@ -101,10 +109,15 @@
 
     /* Estilo de las Cards de la Agenda */
 .card {
-  background: linear-gradient(180deg, rgba(20,25,40,.9), rgba(10,15,30,.9));
-  border-radius: 26px;
-  border: none;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.06);
 }
+
 .card-body ul {
   margin: 0;
 }
@@ -120,13 +133,16 @@
       padding: 1.5rem;
     }
 
-    .day-pill {
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  border: 1px solid rgba(255,255,255,.05);
-  color: #93c5fd;
+.day-pill {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+
+  color: #6b7280;
   font-weight: 600;
-  border-radius: 20px;
 }
+
 
     .day-header {
       text-decoration: none !important;
@@ -137,13 +153,16 @@
       border-color: var(--primary-accent);
     }
 
-    /* Inputs Modernos */
-    .form-control {
-      background-color: #1e293b !important;
-      border: 1px solid var(--glass-border);
-      color: white !important;
-      border-radius: 10px;
-    }
+.form-control,
+.form-select {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
 
     .form-control:focus {
       border-color: var(--primary-accent);
@@ -152,13 +171,14 @@
 
     /* Badges (Músicos) */
 .badge-musico {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  color: white;
-  padding: 6px 14px;
+  background: linear-gradient(135deg, #c4b5fd, #a5f3fc);
+  color: #374151;
+  font-weight: 600;
   border-radius: 999px;
-  font-size: .8rem;
-  box-shadow: 0 6px 15px rgba(59,130,246,.45);
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
 }
+
 
 
     /* Modales */
@@ -248,12 +268,16 @@
 
 /* Bloques tipo lista */
 .modal-bloque {
-  background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(15,23,42,.9));
-  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.45);
   border-radius: 14px;
   padding: 12px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
 }
+
 
 /* Cabecera de bloque */
 .modal-bloque-header {
@@ -271,9 +295,12 @@
 /* Inputs dentro del modal */
 .modal input,
 .modal select {
-  background-color: #0f172a !important;
-  border: 1px solid rgba(255,255,255,.08);
-  color: white !important;
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
 }
 
 /* Scroll elegante */
@@ -305,11 +332,12 @@
   font-size: 0.8rem;
   font-weight: 600;
 
-  background: linear-gradient(135deg, #1e40af, #2563eb);
-  color: #e0f2fe;
+  background: linear-gradient(135deg, #fca5a5, #f87171);
+  color: white;
+
   border: 1px solid rgba(59,130,246,.4);
 
-  box-shadow: 0 4px 10px rgba(59,130,246,.25);
+  box-shadow: 0 6px 16px rgba(248,113,113,.35);
   transition: all .2s ease;
 
   display: inline-flex;
@@ -341,7 +369,7 @@
 
 .evento-descripcion {
   font-weight: 600;
-  color: #e0e7ff;
+  color: var(--text-strong);
   cursor: default;
 }
 
@@ -353,7 +381,7 @@
 
 .evento-horario {
   font-size: 0.85rem;
-  color: #93c5fd;
+  color: var(--primary-accent);
 }
 
 .modo-edicion [contenteditable="true"]:focus {
@@ -481,9 +509,12 @@
     justify-content: space-around;
   }
 
-  .btn-rep-action {
-    width: 44px !important;
-    height: 44px !important;
+  .btn-rep-action,
+  .btn-instrumento {
+    width: auto;          /* que se ajuste al contenido */
+    height: auto;         /* evita círculos */
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
   }
 .day-pill .boton-edicion,
 .day-pill .btn-edicion-ui {
@@ -506,9 +537,14 @@
   }
 
   /* Badge músicos flex-wrap */
-  .badge-musico {
-    flex-wrap: wrap;
-    margin-bottom: 2px;
+  .badge-musico,
+  .btn-instrumento {
+    width: auto !important;
+    height: auto !important;
+    min-width: 50px;
+    border-radius: 12px !important;
+    white-space: nowrap;
+    flex-shrink: 1;
   }
 
   /* Ajuste padding de cards */
@@ -517,6 +553,31 @@
   /* Modales y inputs */
   .modal-dialog { max-width: 95%; margin: 0.5rem; }
   #modalEditorInstrumentos .modal-bloque > div.d-flex { flex-direction: column; gap: 6px; }
+}
+
+.badge-musico {
+  border-radius: 12px !important;
+  padding: 2px 6px !important;
+  font-size: 0.65rem !important;
+  line-height: 1 !important;
+
+  min-width: 0 !important;       /* 🔹 elimina mínimo forzado */
+  width: auto !important;        /* se ajusta al contenido */
+  height: auto !important;       /* se ajusta al contenido */
+  flex-shrink: 1 !important;     /* permite encogerse dentro del flex */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.btn-instrumento {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+.badge-musico {
+  font-size: 0.65rem;  /* más pequeño que instrumentos */
+  padding: 2px 6px;
 }
 
 .btn-icon-only {
@@ -587,10 +648,10 @@
 
 /* Activo */
 .sidebar-link.active {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
   color: white;
-  box-shadow: 0 8px 20px rgba(59,130,246,.45);
 }
+
 
 @media (max-width: 768px) {
 
@@ -616,7 +677,6 @@
     width: 100%;
   }
 }
-
 
 .app-wrapper {
   max-width: 1200px;
@@ -653,12 +713,12 @@
   width: 88px;
   min-width: 88px;
   max-width: 88px;
-
-  box-sizing: border-box; /* 🔥 CLAVE */
-
-  background: linear-gradient(180deg, #0f172a, #020617);
-  border-radius: 16px;
-
+  box-sizing: border-box;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.45);
+  box-shadow: 0 20px 40px rgba(0,0,0,.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -666,9 +726,9 @@
   padding: 1rem 0;
   flex-shrink: 0;
 
-  border: 1px solid rgba(255,255,255,.06);
   overflow: hidden;
 }
+
 
 #agenda .collapse,
 #agenda .collapsing {
@@ -749,27 +809,26 @@
 }
 
 .day{
-  background: linear-gradient(145deg,#0b1220,#111b30);
-  border-radius:14px;
-  padding:10px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
-  cursor:pointer;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.45);
 
-  display:flex;
-  flex-direction:column;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.08);
+
+  cursor:pointer;
 
   aspect-ratio: 1 / 1;   /* 🔥 ESTO los hace cuadrados */
 }
 
-.day strong{
-  font-size:0.9rem;
-  margin-bottom:4px;
+.day strong {
+  color: var(--text-strong);
 }
 
-.event{
-  font-size:0.75rem;
-  color:#4dabf7;
-  margin-top:4px;
+.event {
+  color: var(--primary-accent);
+  font-weight: 600;
 }
 
 .calendar-weekdays{
@@ -783,11 +842,13 @@
 
 .day.editable {
   cursor: pointer;
-  background-color: #1e293b;
+    background: linear-gradient(135deg, #ede9fe, #fdf2f8);
+  border-color: var(--primary-accent);
 }
 
 .day.editable:hover {
-  background-color: #334155;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(167,139,250,.25);
 }
 
 body:not(.modo-edicion) .day {
@@ -804,21 +865,25 @@ body:not(.modo-edicion) .day {
 }
 
 /* Caja de recordatorios */
-#weeklyEvents{
-  background: linear-gradient(145deg,#0b1220,#111b30);
-  border-radius:16px;
-  padding:16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,.35);
+#weeklyEvents,
+#importantBox {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
 }
 
 /* Cada evento semanal */
 .week-event{
-  background:#1e293b;
+  background: rgba(255,255,255,.75);
+  color: var(--text-main);
   border-radius:12px;
   padding:10px 12px;
   margin-bottom:10px;
   font-size:.9rem;
-  color:#e5e7eb;
+  
 }
 
 .week-event strong{
@@ -828,17 +893,24 @@ body:not(.modo-edicion) .day {
 
 /* Caja IMPORTANTE */
 #importantBox{
-  background: linear-gradient(145deg,#0b1220,#111b30);
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
   border-radius:16px;
   padding:16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.08);
+
+  border:1px solid rgba(255,255,255,.45);
 }
 
 #importantText{
-  background:#0f172a;
-  color:#e5e7eb;
-  border:none;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong);
 }
 
 #importantText:focus{
@@ -855,9 +927,9 @@ body:not(.modo-edicion) .day {
 
 /* Mensaje vacío */
 .empty-week{
-  color:#94a3b8;
-  font-style:italic;
-  text-align:center;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
 }
 
 .boton-edicion{
@@ -909,6 +981,15 @@ body:not(.modo-edicion) .day {
   max-width: 42px !important;
 }
 
+#buscadorRepertorio {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
 #buscadorRepertorio::placeholder {
   color: #6c757d;
   opacity: 1;
@@ -919,15 +1000,20 @@ body:not(.modo-edicion) .day {
 }
 
 #paginacionRepertorio .page-link {
-  background-color: #1e293b;
-  color: #93c5fd;
-  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(10px);
+  color: var(--text-strong);
+
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
 }
 
 #paginacionRepertorio .page-item.active .page-link {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
   color: white;
-  border-color: #3b82f6;
+  border-color: transparent;
 }
 
 /* ================== FIX RESPONSIVE AGENDA ================== */
@@ -1091,26 +1177,26 @@ html, body {
 
 /* 🎨 BOTONES DEL MODAL DEL CALENDARIO */
 #eventModal .btn-success {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
   border: none;
   color: white;
   font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(59,130,246,.4);
-  transition: all .2s ease;
+  border-radius: 12px;
+
+  box-shadow: 0 6px 18px rgba(167,139,250,.45);
 }
 
 #eventModal .btn-success:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(59,130,246,.6);
+  box-shadow: 0 10px 26px rgba(167,139,250,.6);
 }
 
 #eventModal .btn-danger {
-  background: rgba(59,130,246,.12);
-  color: #93c5fd;
-  border: 1px solid rgba(59,130,246,.35);
+  background: rgba(248,113,113,.15);
+  color: #ef4444;
+  border: 1px solid rgba(248,113,113,.35);
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 #eventModal .btn-danger:hover {
@@ -1139,8 +1225,17 @@ html, body {
 
 /* Botones de flecha */
 .btn-cal-nav {
-  min-width: 40px !important;
-  padding: 4px 8px !important;
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 12px;
+
+  color: var(--text-strong);
+}
+
+.btn-cal-nav:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
 }
 
 /* 📱 En celulares achicamos más */
@@ -1237,6 +1332,78 @@ body:not(.modo-edicion) .boton-edicion {
 
   .app-wrapper {
     margin-left: 100px; /* deja espacio para la sidebar */
+  }
+}
+
+.btn-flecha {
+  color: var(--primary-accent);       /* violeta pastel */
+  border: 1px solid var(--primary-accent);
+  background-color: rgba(255,255,255,0.65);  /* cristal ligero */
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.btn-flecha:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.1);
+}
+
+/* Cuando están en la paginación del repertorio */
+#paginacionRepertorio .btn-flecha {
+  min-width: 42px;
+  min-height: 36px;
+  padding: 0.3rem 0.8rem; /* respeta tu diseño */
+}
+
+/* Número de página */
+#paginaActual {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
+#paginacionRepertorio span {
+  white-space: nowrap;
+}
+
+.home-player {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,.15);
+  z-index: 999;
+}
+
+.video-thumb {
+  height: 110px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.2s ease;
+}
+
+.videos-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    padding: 0.5rem;
+  }
+
+  .card-title,
+  strong {
+    font-size: 0.85rem;
   }
 }
 
