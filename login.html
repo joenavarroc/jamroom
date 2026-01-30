@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/estilo.css">
+    <title>Login</title>
+</head>
+<body>
+
+    <div class="container" id="container">
+
+        <!-- Formulario de Registro -->
+        <div class="form-container sign-up">
+            <form>
+                <h1>Registrarse</h1>
+                <div class="social-icons">
+                    <!-- Íconos de redes sociales que permiten iniciar sesión o registrarse con cuentas externas -->
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                
+                <span>-----------ó----------</span>
+                
+                <input type="text" id="registerName" placeholder="Nombre">
+                <input type="email" id="registerEmail" placeholder="ejemplo@email.com">
+                <input type="password" id="registerPassword" placeholder="Password">
+
+                <button id="registerButton">Registrarse</button>
+            </form>
+        </div>
+
+        <!-- Formulario de Ingreso -->
+        <div class="form-container sign-in">
+            <form>
+                <h1>Iniciar Sesion</h1>
+                <!-- Sección de íconos sociales para inicio de sesión -->
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                
+                <span>-----------ó----------</span>
+                
+                <input type="email" id="loginEmail" placeholder="Ejemplo@email.com">
+                <input type="password" id="loginPassword" placeholder="Password">
+                
+                <!-- Enlace para recuperar la contraseña en caso de olvido -->
+              <!--  <a href="forgot.html" id="forgotPassword">Olvidaste tu contraseña?</a>-->
+                <button id="loginButton">Iniciar Sesión</button>
+            </form>
+        </div>
+
+        <!-- Contenedor del Toggle -->
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bienvenido</h1>
+                    <p>¿Ya tienes una cuenta?</p>
+                    <button class="hidden" id="login">Iniciar Sección</button>
+                </div>
+    
+                <div class="toggle-panel toggle-right">
+                    <h1>Hola!</h1>
+                    <p>¿No tienes una cuenta?</p>
+                    <button class="hidden" id="register">registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs - versión compat (todo igual) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+    apiKey: "",
+    authDomain: "togglelogin-9d613.firebaseapp.com",
+    projectId: "togglelogin-9d613",
+    storageBucket: "togglelogin-9d613.appspot.com", 
+    messagingSenderId: "842178748784",
+    appId: "1:842178748784:web:e6920b55db9c730d1c2fb5"
+    };
+   
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore(); 
+    </script>
+
+    <script src="/js/toggle.js"></script>
+    <script src="/js/ath.js"></script>
+
+</body>
+</html>
