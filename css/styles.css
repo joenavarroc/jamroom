@@ -690,6 +690,7 @@ h1 {
   width: 100%;
   align-items: stretch;
   overflow: visible;
+  padding-bottom: 20px;
 }
 
 
@@ -3133,3 +3134,4 @@ input.form-control, textarea.form-control {
 .settings-item:active {
   transform: scale(0.97);
 }
+
