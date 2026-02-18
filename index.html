@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jamroom</title>
+  <link rel="icon" href="/img/iconojam.png" type="img" />
+  <!-- Google Fonts Corregido -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/afinador.css">
+  <link rel="stylesheet" href="css/metronomo.css">
+</head>
+
+<body>
+<div class="page-wrapper">
+  <div class="app-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo"></div>
+
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" data-section="home">
+          <i class="bi bi-house"></i>
+          <span>Home</span>
+        </a>
+
+        <a class="sidebar-link" data-section="lobby" onclick="showSection('lobby')">
+          <i class="bi bi-people"></i>
+          <span>Lobby</span>
+        </a>
+
+        <a class="sidebar-link" data-section="agenda" onclick="showSection('agenda')">
+          <i class="bi bi-calendar-event"></i>
+          <span>Agenda</span>
+        </a>
+
+        <a class="sidebar-link" data-section="repertorio" onclick="showSection('repertorio')">
+          <i class="bi bi-music-note-list"></i>
+          <span>Repertorio</span>
+        </a>
+
+        <a class="sidebar-link" data-section="calendario" onclick="showSection('calendario')">
+          <i class="bi bi-calendar3"></i>
+          <span>Calendario</span>
+        </a>
+
+        <!-- 🎛️ GADGETS DROPDOWN -->
+        <div class="settings-wrapper">
+
+          <button id="btnGadgets" class="sidebar-link">
+            <i class="bi bi-sliders"></i>
+            <span>Gadgets</span>
+          </button>
+
+          <div id="gadgetsMenu" class="settings-menu d-none">
+            <button class="settings-item"
+              onclick="showSection('metronomo'); gadgetsMenu.classList.add('d-none')">
+              <i class="bi bi-clock"></i> Metrónomo
+            </button>
+
+            <button class="settings-item"
+              onclick="showSection('afinador'); gadgetsMenu.classList.add('d-none')">
+              <i class="bi bi-music-note"></i> Afinador
+            </button>
+          </div>
+
+        </div>
+
+       <!-- ⚙️ ENGRANAJE CON DROPDOWN -->
+        <div class="settings-wrapper" id="settingsGearWrapper" style="display:none;">
+
+          <button id="btnSettings" class="sidebar-link">
+            <i class="bi bi-gear-fill"></i>
+            <span>Settings</span>
+          </button>
+
+          <!-- Dropdown -->
+          <div id="settingsMenu" class="settings-menu d-none">
+            <button id="btnToggleEdicion" class="settings-item">
+              <i class="bi bi-pencil-square"></i> Modo edición
+            </button>
+
+            <button id="btnAbrirVIP" class="settings-item">
+              <i class="bi bi-star-fill"></i> VIP
+            </button>
+          </div>       
+
+        </div>
+      </nav>
+    </aside>
+
+     <main class="main-content">
+      <div class="section-wrapper">
+        <header class="text-center">
+          <img 
+            src="img/jam.png" 
+            alt="Jamroom"
+            class="jam-logo"
+          >
+        </header>
+
+        <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+          <button id="btnAgregarDia" class="btn btn-app btn-edicion-ui">
+            <i class="bi bi-plus-lg"></i> Agregar día
+          </button>
+     
+        </div>
+
+        <!-- 🏠 HOME SECTION -->
+        <div id="homeSection" style="display:none">
+
+            <h3 class="mb-">
+              <i class="bi bi-star-fill text-warning me-2"></i> Favoritos
+            </h3>
+            <div class="row g-6 mb-5" id="homeFavoritos"></div>
+
+            <h3 class="mb-3">
+              <i class="bi bi-headphones me-2"></i> Más escuchadas
+            </h3>
+            <div class="row g-3 mb-5" id="homeMasEscuchadas"></div>
+
+            <h3 class="mb-3">
+              <i class="bi bi-clock-history me-2"></i> Últimos agregados
+            </h3>
+            <div class="row g-3 mb-5" id="homeCards"></div>
+
+            <!-- 📌 PLAYER -->
+            <div id="homePlayer" class="home-player d-none">
+              <div class="ratio ratio-16x9">
+                <iframe id="homeYoutubeFrame"
+                        src=""
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+            <!-- 🎵 PLAYER FAVORITOS (solo audio) -->
+            <iframe id="homeYoutubeFrameFav"
+                    allow="autoplay; encrypted-media"
+                    style="width:0;height:0;border:0;visibility:hidden">
+            </iframe>
+
+          </div>
+
+        <!-- SECCIÓN LOBBY -->
+        <div id="lobbySection" >
+          <h2>Recordatorios</h2>
+          <div id="weeklyEvents" class="card mb-4"></div>
+
+          <h2>Importante!</h2>
+          <div id="importantBox">
+            <textarea id="importantText" class="form-control mb-2" placeholder="Escribí algo importante..."></textarea>
+
+            <input type="file" id="importantFile" class="important-edit">
+
+            <div class="d-flex gap-2 boton-edicion-ui">
+              <button id="btnSaveImportant" class="important-edit" onclick="saveImportant()">Guardar</button>
+              <button id="btnDeleteImportant" class="important-edit" onclick="deleteImportant()">Borrar</button>
+            </div>
+
+            <div id="importantPreview" class="mt-2"></div>
+          </div>
+
+        </div>
+
+        <!-- Agenda principal -->
+        <!-- SECCIÓN AGENDA -->
+        <div id="agendaSection" style="display:none;">
+          <div id="agenda" class="mt-4"></div>
+        </div>
+
+        <!-- SECCIÓN CALENDARIO (NUEVA) -->
+        <div id="calendarSection" style="display:none;">
+
+          <div class="calendar-header mb-3">
+            <div class="calendar-nav">
+              <button class="btn btn-flecha" onclick="prevMonth()">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <button class="btn btn-flecha" onclick="nextMonth()">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+
+            </div>
+            <h3 id="monthYear" class="m-0"></h3>
+          </div>
+
+          <div id="weekDays" class="calendar-weekdays">
+            <div>Dom</div>
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mié</div>
+            <div>Jue</div>
+            <div>Vie</div>
+            <div>Sáb</div>
+          </div>
+
+          <div id="calendarDays" class="calendar-grid"></div>
+
+        </div>
+
+        <!-- GADGETS -->
+        <!-- SECCIÓN AFINADOR --> 
+        <section id="afinadorSection" class="app-section" style="display:none">
+
+          <div class="card">
+            <canvas id="dial" width="320" height="180"></canvas>
+
+            <div class="note" id="note">--</div>
+            <div class="freq" id="freq">-- Hz</div>
+            <div class="status" id="status">Presiona activar</div>
+
+            <div class="instrument-switch">
+              <button id="guitarBtn" class="inst-btn active" type="button">🎸 Guitarra</button>
+              <button id="bassBtn" class="inst-btn" type="button">🎸 Bajo</button>
+            </div>
+
+            <button id="start" class="mic-btn">🎤 Activar micrófono</button>
+          </div>
+
+        </section>
+
+        <!-- SECCIÓN METRÓNOMO -->
+        <div id="metronomoSection" style="display:none;">
+          <div class="glass">
+            <h1 id="bpmDisplay">120 BPM</h1>
+
+            <input type="range" id="bpm" min="30" max="240" value="120">
+
+            <div class="leds" id="leds"></div>
+
+            <div class="controls">
+              <button id="play" class="icon play"></button>
+              <button id="stop" class="icon stop"></button>
+              <button id="tap" class="transport tap">TAP</button>
+            </div>
+
+            <div class="sound-select">
+              <span>Sonido:</span>
+              <select id="soundType">
+                <option value="digital">Digital</option>
+                <option value="wood">Madera</option>
+                <option value="clap">Clap</option>
+              </select>
+            </div>
+
+            <div class="volume-control">
+              <span>Volumen</span>
+              <input type="range" id="volume" min="0" max="100" value="70">
+            </div>
+
+            <div class="time-signature mb-1">
+              <span>Compás</span>
+              <select id="timeSignature">
+                <option value="4/4">4 / 4</option>
+                <option value="3/4">3 / 4</option>
+                <option value="6/8">6 / 8</option>
+                <option value="12/8">12 / 8</option>
+              </select>
+            </div>
+
+            <div class="accent">
+              <span>Acento:</span>
+              <select id="accent">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <div class="figures">
+              <button data-mult="4">𝅝</button>
+              <button data-mult="2">𝅗𝅥</button>
+              <button data-mult="1" class="active">♩</button>
+              <button data-mult="0.5">♪</button>
+              <button data-mult="0.25">𝅘𝅥𝅯</button>
+              <button data-mult="0.125">𝅘𝅥𝅰</button>
+              <button data-mult="0.0625">𝅘𝅥𝅱</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN REPERTORIO -->
+        <div id="repertorioSection" style="display:none;">
+
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+
+            <h2 class="m-0">Repertorio</h2>
+
+            <div class="d-flex gap-2 align-items-center">
+
+              <!-- 🔎 BUSCAR CANCIÓN -->
+              <input type="text"
+                    class="form-control"
+                    placeholder="Buscar canción"
+                    style="max-width: 220px"
+                    oninput="buscarRepertorio(this.value)">
+            </div>
+          </div>
+
+          <div id="repertorioGlobalList"></div>
+
+          <!-- Contenedor principal de búsqueda + paginación -->
+          <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+
+            <!-- Contenedor principal de búsqueda + paginación -->
+            <div class="mb-3">
+
+              <!-- FILA 1: Buscador YouTube -->
+              <div id="buscadorYoutubeGlobal" class="d-none d-flex gap-2 align-items-center mb-2">
+                <input type="text"
+                      id="repYoutube"
+                      class="form-control"
+                      placeholder="Buscar en YouTube…"
+                      style="max-width: 260px">
+                <button class="btn btn-soft-primary" onclick="buscarEnYoutubeDesdeModal()">
+                  🔍
+                </button>
+              </div>
+
+              <!-- FILA 2: paginación + acciones -->
+              <div class="d-flex justify-content-between align-items-center">
+
+                <!-- Flechas + contador -->
+                <div id="paginacionRepertorio" class="d-flex align-items-center gap-2" style="white-space: nowrap;">
+                  <button class="btn btn-flecha" onclick="paginaAnterior()">
+                    <i class="bi bi-chevron-left"></i>
+                  </button>
+
+                  <span id="paginaActual">1</span>
+                  <span>/</span>
+                  <span id="totalPaginas">2</span>
+
+                  <button class="btn btn-flecha" onclick="paginaSiguiente()">
+                    <i class="bi bi-chevron-right"></i>
+                  </button>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex gap-2 boton-edicion">
+                  <button class="btn btn-app btn-rep-action" onclick="agregarCancionGlobal()">➕</button>
+                  <button class="btn btn-delete-song btn-rep-action" onclick="guardarRepertorioGlobal()">💾</button>
+                </div>
+              </div>
+            </div> <!-- ✅ CIERRE repertorioSection -->
+        </div> <!-- ✅ CIERRE section-wrapper -->
+        </main> <!-- ✅ CIERRE main -->
+    </div>
+  </div>
+
+<!-- Modal nueva fecha -->
+<div class="modal fade" id="modalNuevaFecha" tabindex="-1" role="dialog" aria-labelledby="modalNuevaFechaLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNuevaFechaLabel">Agregar nueva fecha</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputFechaModal" class="form-label">Seleccionar fecha:</label>
+          <input type="date" class="form-control" id="inputFechaModal" />
+        </div>
+        <div class="mb-3">
+          <label for="inputDescripcionModal" class="form-label">Descripción:</label>
+          <input type="text" class="form-control" id="inputDescripcionModal" placeholder="Ensayo, Concierto, etc." />
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm d-none"
+          id="btnEliminarFecha">
+          <i class="bi bi-trash"></i> Eliminar evento
+        </button>
+
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-primary" id="btnGuardarFecha">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Músicos -->
+<div class="modal fade" id="modalMusicos" tabindex="-1" aria-labelledby="modalMusicosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMusicosLabel">Asignar Músicos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="bodyModalMusicos">
+        <!-- Aquí se cargará dinámicamente el contenido -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="guardarMusicosBtn">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar músicos por instrumento -->
+<div class="modal fade" id="modalEditorInstrumentos" tabindex="-1" aria-labelledby="editorInstrumentosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar músicos por instrumento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="bodyEditorInstrumentos"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="guardarInstrumentosBtn">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal Repertorio -->
+  <div class="modal fade" id="modalRepertorio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Repertorio</h5>
+        </div>
+
+        <div class="modal-body" id="bodyModalRepertorio">
+
+          <div class="mb-2">
+            <label>Título</label>
+            <input type="text" id="repTitulo" class="form-control">
+          </div>
+
+          <div class="mb-2">
+            <label>Nota</label>
+            <textarea id="repNota" class="form-control"></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label>Link de YouTube</label>
+            <input type="text" id="repYoutube" class="form-control" placeholder="https://youtube.com/...">
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button id="guardarRepertorioBtn" class="btn btn-delete-song">
+            💾
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal para reproducir YouTube (añadido desde tu primer código) -->
+  <div class="modal fade" id="modalYoutubePlayer" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reproduciendo video</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="cerrarYoutubeModal()"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="ratio ratio-16x9">
+            <iframe id="youtubeFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Modal para Calendario -->
+<div class="modal fade" id="eventModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Evento</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- 👁️ Vista lista -->
+        <div id="vistaListaEventos" class="d-none">
+          <div id="eventList"></div>
+        </div>
+
+        <!-- ✏️ Vista formulario -->
+        <div id="vistaFormularioEvento">
+          <label>Horario</label>
+          <input type="time" id="eventTime" class="form-control mb-2">
+
+          <label>Descripción</label>
+          <input type="text" id="eventText" class="form-control">
+        </div>
+
+      </div>
+
+      <!-- 🔽 ESTO FALTABA -->
+      <div class="modal-footer">
+        <button
+          id="btnEliminarEvento"
+          class="btn btn-danger d-none"
+          onclick="deleteEvent()">
+          Eliminar
+        </button>
+
+        <button
+          id="btnGuardarEvento"
+          class="btn btn-primary"
+          onclick="saveEvent()">
+          Guardar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+  <!-- MODAL AGREGAR VIP -->
+  <div class="modal fade" id="modalVIP" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar miembro VIP</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- FORM VIP -->
+          <form id="vipForm">
+            <div class="mb-2">
+              <input type="text" id="vipNombre" class="form-control" placeholder="Nombre">
+            </div>
+
+            <div class="mb-2">
+              <input type="text" id="vipClave" class="form-control" placeholder="Teléfono / clave">
+            </div>
+
+            <button type="button" id="guardarVIP" class="btn btn-primary w-100 mb-3">
+              Guardar VIP
+            </button>
+          </form>
+
+          <hr>
+
+          <!-- LISTA VIP -->
+          <h6>👑 Usuarios VIP</h6>
+          <ul id="vipList" class="list-group"></ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+<!-- Scripts -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsvLM-oWEMuWZbL6R7Z0DuqzBmPYyp1xo",
+      authDomain: "jamroomlive.firebaseapp.com",
+      projectId: "jamroomlive",
+      storageBucket: "jamroomlive.firebasestorage.app",
+      messagingSenderId: "327478158190",
+      appId: "1:327478158190:web:5d4d43d256f87c6c33d77f",
+      measurementId: "G-M5EVFV4P92"
+    };
+    
+   firebase.initializeApp(firebaseConfig);
+
+    db = firebase.firestore();
+    // Inicializar Firebase
+    firebase.auth().setPersistence(
+      firebase.auth.Auth.Persistence.LOCAL
+    ).then(() => {
+
+      console.log("Persistencia LOCAL activada");
+
+      firebase.auth().onAuthStateChanged((user) => {
+
+        const rolSession = sessionStorage.getItem("rol");
+
+        // ✅ PERMITIR VIP sin Firebase Auth
+        if (rolSession === "vip") {
+          console.log("VIP detectado via sessionStorage");
+          return;
+        }
+
+        // 👑 ADMIN con Firebase Auth
+        if (!user) {
+          window.location.href = "login.html";
+        } else {
+          console.log("Usuario activo:", user.uid);
+        }
+
+      });
+
+    }).catch((error) => {
+      console.error("Error configurando persistencia:", error);
+    });
+
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net"></script>
+
+<script src="js/scripts.js"></script>
+<script src="js/afinador.js"></script>
+<script src="js/metronomo.js"></script>
+
+<!-- <div id="debugConsoleWrapper" style="
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    max-height:200px;
+    height:200px;
+    background:#000;
+    color:#0f0;
+    font-size:11px;
+    z-index:99999;
+    font-family:monospace;
+    display:flex;
+    flex-direction:column;
+    border-top: 2px solid #0f0;
+">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:2px 5px; background:#111;">
+        <strong>Debug Console</strong>
+        <button onclick="toggleDebugConsole()" style="background:#222;color:#0f0;border:none;font-size:11px;">✖</button>
+    </div>
+    <div id="debugConsole" style="
+        flex:1;
+        overflow:auto;
+        padding:5px;
+    "></div>
+</div> -->
+
+<script>
+function debugLog(msg) {
+    console.log(msg);
+    const div = document.getElementById("debugConsole");
+    if(div) {
+        div.innerHTML += msg + "<br>";
+        div.scrollTop = div.scrollHeight;
+    }
+}
+function toggleDebugConsole() {
+    const wrapper = document.getElementById("debugConsoleWrapper");
+    if(wrapper) wrapper.style.display = wrapper.style.display === "none" ? "flex" : "none";
+}
+</script>
+
+
+</body>
+</html>

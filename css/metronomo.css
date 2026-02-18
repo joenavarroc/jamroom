@@ -1,0 +1,150 @@
+/* Encapsulado solo para metronomoSection */
+#metronomoSection {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none; /* usa el fondo del body */
+}
+
+#metronomoSection .glass {
+  width: 360px;
+  padding: 30px;
+  border-radius: 20px;
+  /* Solo cambiamos el fondo para que no sea gris */
+  background: linear-gradient(135deg, rgba(29, 37, 113, 0.61), rgba(195, 55, 99, 0.603));
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  text-align: center;
+  color: white;
+}
+
+#metronomoSection h1 {
+  font-size: 64px;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+#metronomoSection input[type=range] {
+  width: 100%;
+}
+
+#metronomoSection #tempoName {
+  opacity: 0.7;
+  margin-bottom: 15px;
+  color: white;
+}
+
+/* LEDs */
+#metronomoSection .leds {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#metronomoSection .led {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+}
+
+#metronomoSection .led.active {
+  background: #ff9f43;
+  box-shadow: 0 0 12px #ff9f43, 0 0 20px #ff9f43;
+}
+
+/* Botones y controles */
+#metronomoSection .controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+#metronomoSection .controls button {
+  margin: 5px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15); /* más oscuro que antes */
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#metronomoSection .controls button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Otros elementos */
+#metronomoSection #tap {
+  line-height: 1;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: white;
+}
+
+#metronomoSection .figures button {
+  margin: 5px;
+  font-size: 22px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+#metronomoSection .figures button.active {
+  opacity: 1;
+  color: #ff9f43;
+}
+
+/* Selects y sliders */
+#metronomoSection .sound-select select,
+#metronomoSection .volume-control input,
+#metronomoSection .time-signature select,
+#metronomoSection .accent select {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 5px 10px;
+}
+
+#metronomoSection .sound-select option,
+#metronomoSection .time-signature option,
+#metronomoSection .accent option {
+  color: black;
+}
+
+/* Iconos */
+#metronomoSection .icon {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+#metronomoSection .icon.play::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+#metronomoSection .icon.stop::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: white;
+  top: 14px;
+  left: 14px;
+}

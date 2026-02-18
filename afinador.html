@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Afinador</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="card">
+    <canvas id="dial" width="320" height="180"></canvas>
+
+    <div class="note" id="note">--</div>
+    <div class="freq" id="freq">-- Hz</div>
+    <div class="status" id="status">Presiona activar</div>
+
+    <div class="instrument-switch">
+        <button id="guitarBtn" class="inst-btn active" type="button">🎸 Guitarra</button>
+        <button id="bassBtn" class="inst-btn" type="button">🎸 Bajo</button>
+    </div>
+
+    <button id="start" class="mic-btn">🎤 Activar micrófono</button>
+</div>
+
+<script src="js/script.js" defer></script>
+</body>
+</html>

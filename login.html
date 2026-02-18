@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>Login</title>
+    <link rel="icon" href="/img/iconojam.png" type="img" />
+</head>
+<body>
+
+    <div class="container" id="container">
+
+        <!-- Formulario de Registro -->
+        <div class="form-container sign-up">
+            <form>
+                <h1>Registrarse</h1>              
+                <input type="text" id="registerName" placeholder="Nombre">
+                <input type="email" id="registerEmail" placeholder="ejemplo@email.com">
+                <input type="password" id="registerPassword" placeholder="Password">
+
+                <button type="button" id="registerButton">Registrarse</button>
+            </form>
+        </div>
+
+        <!-- Formulario de Ingreso -->
+        <div class="form-container sign-in">
+            <form>
+                <h1>Iniciar Sesion</h1>
+                <!-- Sección de íconos sociales para inicio de sesión -->
+                <div class="social-icons">
+                    <a href="#" class="icon" id="googleLogin">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                    <a href="#" class="icon" id="facebookLogin">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+                
+                <span>-----------ó----------</span>
+                
+                <input type="email" id="loginEmail" placeholder="Ejemplo@email.com">
+                <input type="password" id="loginPassword" placeholder="Password">
+                
+                <!-- Enlace para recuperar la contraseña en caso de olvido -->
+                <button id="loginButton">Iniciar Sesión</button>
+                <a href="#" id="forgotPassword">¿Olvidaste tu contraseña?</a>
+            </form>
+        </div>
+
+        <!-- Contenedor del Toggle -->
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bienvenido</h1>
+                    <p>¿Ya tienes una cuenta?</p>
+                    <button class="hidden" id="login">Iniciar Sección</button>
+                </div>
+    
+                <div class="toggle-panel toggle-right">
+                    <h1>Hola!</h1>
+                    <p>¿No tienes una cuenta?</p>
+                    <button class="hidden" id="register">registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- ===== INGRESO VIP (CLAVE) ===== -->
+        <div class="vip-wrapper">
+            <div class="vip-container" id="vipCard">
+
+                <div class="vip-header">
+                <h1 class="vip-title"><i class="fa-solid fa-crown"></i> Ingreso VIP</h1>
+                <span>Acceso exclusivo</span>
+                </div>
+
+                <div class="vip-body">
+                <form class="vip-form">
+                    <input 
+                    type="text" 
+                    id="vipKey" 
+                    placeholder="Clave de acceso" 
+                    />
+
+                    <div class="vip-actions">
+                    <button type="button" onclick="verificarVIP()">Ingresar</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    <!-- Firebase SDKs - versión compat (todo igual) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        
+    const firebaseConfig = {
+        apiKey: "AIzaSyAsvLM-oWEMuWZbL6R7Z0DuqzBmPYyp1xo",
+        authDomain: "jamroomlive.firebaseapp.com",
+        projectId: "jamroomlive",
+        storageBucket: "jamroomlive.firebasestorage.app",
+        messagingSenderId: "327478158190",
+        appId: "1:327478158190:web:5d4d43d256f87c6c33d77f",
+        measurementId: "G-M5EVFV4P92"
+    };
+   
+        // ✅ 1 Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // ✅ 2 Firestore GLOBAL (importante que no sea const)
+        db = firebase.firestore();
+
+        console.log("Firestore cargado");
+
+        // ✅ 3 Persistencia
+        firebase.auth().setPersistence(
+        firebase.auth.Auth.Persistence.LOCAL
+        ).then(() => {
+
+        console.log("Persistencia LOCAL activada");
+
+        }).catch((error) => {
+        console.error("Error configurando persistencia:", error);
+        });
+
+
+        // ✅ 4 Redirect login (Google / Facebook móvil)
+        firebase.auth().getRedirectResult()
+        .then((result) => {
+
+        if (result.user) {
+
+            sessionStorage.setItem("rol", "admin"); // ✅ usar sessionStorage
+
+            console.log("Login redirect OK");
+
+            window.location.href = "index.html";
+        }
+
+        })
+        .catch((error) => {
+        console.error("Error redirect:", error);
+        });
+    </script>
+
+    <script src="/js/toggle.js"></script>
+    <script src="/js/ath.js"></script>
+
+</body>
+</html>

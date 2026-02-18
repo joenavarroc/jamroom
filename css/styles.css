@@ -1,0 +1,3155 @@
+html {
+  overflow-y: scroll;
+}
+    
+    
+    :root {
+  /* Fondo general */
+  --bg-body: #f4eef2;
+  --bg-gradient-1: #f7e9f2;
+  --bg-gradient-2: #eef2f7;
+
+  /* Cards / Glass */
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.45);
+
+  /* Acentos */
+  --primary-accent: #a78bfa;     /* violeta pastel */
+  --secondary-accent: #67e8f9;   /* celeste pastel */
+  --accent-pink: #f9a8d4;
+
+  /* Texto */
+  --text-main: #4b5563;
+  --text-strong: #374151;
+  --text-muted: #9ca3af;
+}
+
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+
+  background:
+    radial-gradient(circle at top right, #fde2f3, transparent 60%),
+    radial-gradient(circle at bottom left, #e0f2fe, transparent 60%),
+    linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+}
+
+
+/* Contenedor con efecto cristal */
+.container-glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+}
+
+.subtitle {
+  color: var(--text-muted);
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-strong);
+}
+
+    .col-lista {
+  width: 100%;
+}
+
+.lista-panel {
+  width: 100%;
+}
+
+.item-lista {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* === BOTONES MODERNOS COMPACTOS === */
+.btn-app {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  border-radius: 14px;
+  font-weight: 600;
+
+  box-shadow:
+    0 8px 20px rgba(167,139,250,.35);
+  display: inline-flex;        /* 👈 CLAVE */
+  align-items: center;         /* 👈 centra vertical */
+  justify-content: center;     /* 👈 centra horizontal */
+  gap: 8px;
+}
+
+.btn-app:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(167,139,250,.45);
+}
+
+.btn-app-outline {
+  min-width: 160px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: rgba(59,130,246,.1);
+  color: #93c5fd;
+  border: 1px solid rgba(59,130,246,.35);
+}
+
+    /* Estilo de las Cards de la Agenda */
+.card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.06);
+}
+
+.card-body ul {
+  margin: 0;
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  font-size: .9rem;
+  color: #e2e8f0;
+}
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+.day-pill {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+
+  color: #6b7280;
+  font-weight: 600;
+}
+
+
+    .day-header {
+      text-decoration: none !important;
+    }
+
+
+    .card-evento:hover {
+      border-color: var(--primary-accent);
+    }
+
+.form-control,
+.form-select {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+
+    .form-control:focus {
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Badges (Músicos) */
+.badge-musico {
+  background: linear-gradient(135deg, #c4b5fd, #a5f3fc);
+  color: #374151;
+  font-weight: 600;
+  border-radius: 999px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+
+
+    /* Modales */
+    .modal-content {
+      background-color: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+    }
+
+    .modal-header { border-bottom: 1px solid var(--glass-border); }
+    .modal-footer { border-top: 1px solid var(--glass-border); }
+
+    /* ============================= */
+/*  MODO EDICIÓN */
+/* ============================= */
+
+/* Ocultos por defecto */
+.boton-edicion {
+  display: none;
+}
+
+/* Visibles solo en modo edición */
+.modo-edicion .boton-edicion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-body); }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+.list-group,
+.list-group-item {
+  background: transparent !important;
+  color: var(--text-main) !important;
+  border-color: rgba(255,255,255,0.05) !important;
+}
+
+#agenda .list-group-item {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.5;
+  min-width: 0;
+}
+
+.contenedor-musicos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+#agenda .badge-musico {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.bloque-cancion > div:first-child {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  min-width: 0; /* Permite que se encoja correctamente en flexbox */
+  padding-right: 10px; /* Espaciado */
+  /* Quita las propiedades 'white-space', 'overflow', 'text-overflow' de aquí y de .bloque-cancion */
+}
+
+/* ===== BLOQUES DE MODAL UNIFICADOS ===== */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#agenda .btn-app,
+#agenda .btn-app-outline,
+#agenda .boton-edicion,
+#agenda .btn-edicion-ui {
+  min-width: auto !important;
+  max-width: 100%;
+}
+
+/* Bloques tipo lista */
+.modal-bloque {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 5px;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+}
+
+
+/* Cabecera de bloque */
+.modal-bloque-header {
+  font-weight: 600;
+  color: #c7d2fe;
+  margin-bottom: 6px;
+  font-size: .85rem;
+}
+
+/* Botones dentro del modal */
+.modal .btn {
+  border-radius: 10px;
+}
+
+/* Inputs dentro del modal */
+.modal input,
+.modal select {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+/* Scroll elegante */
+.modal-dialog-scrollable .modal-body {
+  scrollbar-width: thin;
+}
+
+/* Contenedor flexible para los inputs y el botón, centrando verticalmente */
+.song-row {
+  display: flex;
+  align-items: center; /* Centra verticalmente los elementos */
+  gap: 10px; /* Espaciado entre columnas (inputs y botón) */
+  width: 100%;
+}
+
+/* Inputs para que ocupen el espacio restante */
+.song-input {
+  flex: 1; 
+  /* Asegura que los inputs no se desborden y crezcan uniformemente */
+  min-width: 0; 
+}
+
+/* Estilo para el botón de eliminar, haciéndolo más visible (rojo) */
+.btn-delete-song {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  background: linear-gradient(135deg, #fca5a5, #f87171);
+  color: white;
+
+  border: 1px solid rgba(59,130,246,.4);
+
+  box-shadow: 0 6px 16px rgba(248,113,113,.35);
+  transition: all .2s ease;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-song:hover {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  box-shadow: 0 6px 14px rgba(59,130,246,.45);
+  transform: translateY(-1px);
+}
+
+.btn-instrumento {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  font-size: 0.8rem;
+  border-radius: 10px;
+}
+
+.instrumento-label {
+  color: #93c5fd;          /* azul clarito */
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+.evento-descripcion {
+  font-weight: 600;
+  color: var(--text-strong);
+  cursor: default;
+}
+
+.modo-edicion .evento-descripcion,
+.modo-edicion .evento-horario {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+.evento-horario {
+  font-size: 0.85rem;
+  color: var(--primary-accent);
+}
+
+.modo-edicion [contenteditable="true"]:focus {
+  box-shadow: 0 0 0 2px rgba(59,130,246,.35);
+}
+
+/* 🔥 FORZAR LAYOUT DEL HEADER DEL DÍA */
+.day-pill > div {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.day-pill .evento-descripcion {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.day-pill .evento-horario {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.boton-edicion {
+  display: none;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  line-height: 1;
+  border-radius: 6px;
+}
+
+.modo-edicion .boton-edicion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-edicion-ui {
+  display: none;
+}
+
+.modo-edicion .btn-edicion-ui {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ===== RESPONSIVE CELULARES ===== */
+/* ================== RESPONSIVE CELULARES FINAL ================== */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .container-glass {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  h1 { font-size: 1.5rem; }
+  .subtitle { font-size: 0.85rem; }
+
+  /* Botones ajustados a pantalla */
+  .btn-app,
+  .btn-app-outline {
+    min-width: auto;
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+  }
+
+  .d-flex.flex-wrap.justify-content-center.gap-3 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Cards y day-pill */
+  .card, .day-pill {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .day-pill { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
+
+  .card-body { padding: 1rem; }
+
+  /* Inputs y selects */
+  .form-control, .form-select {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  /* Badge músicos flex-wrap */
+  .badge-musico { padding: 4px 10px; font-size: 0.75rem; flex-wrap: wrap; }
+
+
+  .day-pill .evento-descripcion { font-size: 0.8rem; white-space: normal !important; overflow: visible !important; }
+  .day-pill .evento-horario { font-size: 0.75rem; white-space: normal !important; overflow: visible !important; }
+
+  /* Botones bajan a otra fila si falta espacio */
+  .boton-edicion, .btn-edicion-ui {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
+
+  /* Modales */
+  .modal-dialog { max-width: 95%; margin: 1rem; }
+  .song-row { flex-direction: column; gap: 6px; }
+  .song-row .col-md-3, .song-row .col-md-2, .song-row .col-md-4 { width: 100%; max-width: 100%; }
+  .btn-delete-song { width: 100%; justify-content: center; padding: 6px 0; }
+}
+
+/* ================== PANTALLAS MUY PEQUEÑAS (≤480px) ================== */
+@media (max-width: 480px) {
+
+    .boton-edicion {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .btn-rep-action,
+  .btn-instrumento {
+    width: auto;          /* que se ajuste al contenido */
+    height: auto;         /* evita círculos */
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
+  }
+.day-pill .boton-edicion,
+.day-pill .btn-edicion-ui {
+  min-width: auto;     /* 👈 rompe el problema */
+  white-space: nowrap;
+}
+
+
+  /* Botones ocupan toda la fila */
+  .boton-edicion, .btn-edicion-ui {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
+
+  /* Botones de YouTube / Letra en columna si no caben */
+  .day-pill .btn-app, .day-pill .btn-app-outline {
+    width: 48%;   /* máximo dos por fila */
+    margin-bottom: 4px;
+  }
+
+  /* Badge músicos flex-wrap */
+  .badge-musico,
+  .btn-instrumento {
+    width: auto !important;
+    height: auto !important;
+    min-width: 50px;
+    border-radius: 12px !important;
+    white-space: nowrap;
+    flex-shrink: 1;
+  }
+
+  /* Ajuste padding de cards */
+  .card, .day-pill { padding: 0.5rem; }
+
+  /* Modales y inputs */
+  .modal-dialog { max-width: 95%; margin: 0.5rem; }
+  #modalEditorInstrumentos .modal-bloque > div.d-flex { flex-direction: column; gap: 6px; }
+}
+
+.badge-musico {
+  border-radius: 12px !important;
+  padding: 2px 6px !important;
+  font-size: 0.65rem !important;
+  line-height: 1 !important;
+
+  min-width: 0 !important;       /* 🔹 elimina mínimo forzado */
+  width: auto !important;        /* se ajusta al contenido */
+  height: auto !important;       /* se ajusta al contenido */
+  flex-shrink: 1 !important;     /* permite encogerse dentro del flex */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.btn-instrumento {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+.badge-musico {
+  font-size: 0.65rem;  /* más pequeño que instrumentos */
+  padding: 2px 6px;
+}
+
+.btn-icon-only {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.btn-icon-only:hover {
+  opacity: 0.8;
+}
+
+.btn-icon-only:focus,
+.btn-icon-only:active {
+  box-shadow: none !important;
+}
+
+/* Logo */
+.sidebar-logo {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+}
+
+.sidebar-link {
+  all: unset;
+  cursor: pointer;
+
+  width: 100%;
+  height: 64px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  border-radius: 16px;
+}
+
+.sidebar-link i {
+  font-size: 1.4rem;
+}
+
+.sidebar-link span {
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+
+/* Hover */
+.sidebar-link:hover {
+  background: rgba(59,130,246,.15);
+  color: #93c5fd;
+}
+
+/* Activo */
+.sidebar-link.active {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+}
+
+.sidebar-link i {
+  font-size: 1.4rem;
+}
+
+.sidebar-link span {
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+
+/* Hover */
+.sidebar-link:hover {
+  background: rgba(59,130,246,.15);
+  color: #93c5fd;
+}
+
+/* Activo */
+.sidebar-link.active {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+}
+
+.sidebar {
+  width: 88px;
+  min-width: 88px;
+  max-width: 88px;
+  box-sizing: border-box;
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.45);
+  box-shadow: 0 20px 40px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  overflow: visible;
+}
+
+/* Navegación */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  align-items: stretch;
+  overflow: visible;
+  padding-bottom: 20px;
+}
+
+
+.sidebar-link i {
+  font-size: 1.4rem;
+}
+
+.sidebar-link span {
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+
+/* Hover */
+.sidebar-link:hover {
+  background: rgba(59,130,246,.15);
+  color: #93c5fd;
+}
+
+/* Activo */
+.sidebar-link.active {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+}
+
+
+@media (max-width: 768px) {
+
+  .page-wrapper {
+    padding: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Botones uno debajo del otro */
+  .d-flex.flex-wrap.justify-content-center.gap-3 {
+    flex-direction: column;
+  }
+
+  .btn-app,
+  .btn-app-outline {
+    width: 100%;
+  }
+}
+
+.app-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.75rem;
+  min-height: 85vh;
+}
+
+.app-layout {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.main-content {
+  flex: 1;
+  display: block;
+}
+
+.section-wrapper {
+  width: 100%;
+  max-width: 900px;   /* 👈 mismo concepto que mobile */
+  margin: 0 auto;     /* 👈 centrado */
+  box-sizing: border-box;
+}
+
+.page-wrapper {
+  width: 100%;
+  padding: 2rem;
+}
+
+.settings-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#agenda .collapse,
+#agenda .collapsing {
+  width: 100%;
+}
+
+
+#agenda .collapse {
+  width: 100%;
+}
+
+#agenda,
+#agenda .collapse,
+#agenda .collapse-inner-fixed,
+#agenda > .list-group-item,
+#agenda .day-pill {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.modo-edicion .evento-fecha {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+/* Fecha a la izquierda */
+.evento-fecha {
+  text-align: left;
+  justify-self: start;
+}
+
+/* Descripción centrada */
+.evento-descripcion {
+  text-align: center;
+  justify-self: center;
+}
+
+/* Hora a la derecha */
+.evento-horario {
+  text-align: right;
+  justify-self: end;
+}
+
+
+/* Fecha a la izquierda */
+.evento-fecha {
+  text-align: left;
+  justify-self: start;
+}
+
+/* Descripción verdaderamente centrada */
+.evento-descripcion {
+  text-align: center;
+  justify-self: center;
+}
+
+/* Hora a la derecha */
+.evento-horario {
+  text-align: right;
+  justify-self: end;
+}
+
+#btnEliminarFecha:hover {
+  background-color: #8b00005b;
+  border-color: #8b000059;
+  color: white;
+}
+
+
+/* ======================================== CALENDARIO ========================================= */
+.calendar-grid {
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:12px;
+  width:100%;
+}
+
+.day{
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.45);
+  height: 120px; 
+  overflow: hidden;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.08);
+
+  cursor:pointer;
+
+  aspect-ratio: 1 / 1;   /* 🔥 ESTO los hace cuadrados */
+}
+
+.day strong {
+  color: var(--text-strong);
+
+}
+
+.event {
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event.more {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.calendar-weekdays{
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  text-align:center;
+  font-weight:600;
+  color:#9fc5ff;
+  margin-bottom:10px;
+}
+
+.day.editable {
+  cursor: pointer;
+    background: linear-gradient(135deg, #ede9fe, #fdf2f8);
+  border-color: var(--primary-accent);
+}
+
+.day.editable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(167,139,250,.25);
+}
+
+body:not(.modo-edicion) .day {
+  cursor: default;
+  opacity: 0.85;
+}
+
+
+/* ======================================== LOBBY ==================================== */
+
+#lobbySection h2{
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+/* Caja de recordatorios */
+#weeklyEvents,
+#importantBox {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* Cada evento semanal */
+.week-event{
+  background: rgba(255,255,255,.75);
+  color: var(--text-main);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:10px;
+  font-size:.9rem;
+  
+}
+
+.week-event strong{
+  color:#60a5fa;
+  text-transform:capitalize;
+}
+
+/* Caja IMPORTANTE */
+#importantBox{
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  border-radius:16px;
+  padding:16px;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.08);
+
+  border:1px solid rgba(255,255,255,.45);
+}
+
+#importantText{
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong);
+}
+
+#importantText:focus{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(96,165,250,.4);
+}
+
+#importantPreview a{
+  color:#60a5fa;
+  text-decoration:none;
+  font-size:.85rem;
+}
+
+
+/* Mensaje vacío */
+.empty-week{
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.boton-edicion{
+  display:none !important;
+}
+
+.modo-edicion .boton-edicion{
+  display:inline-flex !important;
+}
+
+.btn-rep-action {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 1.2rem;
+}
+
+/* Botones + y guardar del repertorio: forzar cuadrados */
+.boton-edicion .btn {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  line-height: 1 !important;
+  font-size: 1.1rem !important;
+}
+
+.boton-edicion .btn-rep-action {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+}
+
+#buscadorRepertorio {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+#buscadorRepertorio::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+#paginacionRepertorio {
+  overflow: visible;
+}
+
+#paginacionRepertorio .page-link {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(10px);
+  color: var(--text-strong);
+
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+#paginacionRepertorio .page-item.active .page-link {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  border-color: transparent;
+}
+
+/* ================== FIX RESPONSIVE AGENDA ================== */
+@media (max-width: 768px) {
+
+  #agenda,
+  #agenda .collapse,
+  #agenda .collapse-inner-fixed,
+  #agenda > .list-group-item,
+  #agenda .day-pill {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-pill > div {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .evento-fecha,
+  .evento-horario {
+    justify-self: center;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .evento-descripcion {
+    margin: 4px 0;
+  }
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+
+  .page-wrapper {
+    padding: 0.5rem;
+  }
+
+  .app-wrapper {
+    flex-direction: column !important;  /* 🔥 CLAVE */
+    max-width: 100% !important;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    flex-direction: row !important;
+    justify-content: space-around;
+    padding: 0.5rem !important;
+  }
+
+  #agenda {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .calendar-wrapper {
+    overflow-x: hidden;   /* ❌ NO scroll horizontal */
+  }
+
+  .calendar-grid {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .day {
+    aspect-ratio: auto;
+    min-height: 60px;
+    padding: 4px;
+    font-size: 0.7rem;
+  }
+
+  .day strong {
+    font-size: 0.7rem;
+  }
+
+  .event {
+    font-size: 0.65rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .sidebar {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    height: auto;
+  }
+
+  .sidebar-nav {
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .sidebar-link {
+    height: auto !important;
+    padding: 6px 4px;
+  }
+
+  .sidebar-link span {
+    display: none; /* solo íconos */
+  }
+
+  .sidebar-link i {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar nav {
+    margin-top: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+#lobbySection,
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 🔥 FORZAR TODAS LAS SECCIONES A MISMO ANCHO REAL */
+#lobbySection,
+#agendaSection,
+#repertorioSection,
+#calendarSection {
+  width: 100%;
+}
+
+/* 🔥 FORZAR CONTENIDO INTERNO A ESTIRARSE */
+#lobbySection > *,
+#calendarSection > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 🎨 BOTONES DEL MODAL DEL CALENDARIO */
+#eventModal .btn-success {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+
+  box-shadow: 0 6px 18px rgba(167,139,250,.45);
+}
+
+#eventModal .btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(167,139,250,.6);
+}
+
+#eventModal .btn-danger {
+  background: rgba(248,113,113,.15);
+  color: #ef4444;
+  border: 1px solid rgba(248,113,113,.35);
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+#eventModal .btn-danger:hover {
+  background: rgba(59,130,246,.2);
+  color: #e0e7ff;
+}
+
+.calendar-header #btnModoEdicion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-header #btnModoEdicion i {
+  font-size: 1.1rem;
+}
+
+/* Estado normal */
+#btnModoEdicion {
+  transition: all 0.25s ease;
+}
+
+/* 🔥 Cuando el modo edición está activo */
+body.modo-edicion #btnModoEdicion {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 8px 20px rgba(99,102,241,.45);
+  transform: rotate(90deg);
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 6px;
+}
+
+/* Texto mes centrado relativo al contenedor */
+#monthYear {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Botones de flecha */
+.btn-cal-nav {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 12px;
+
+  color: var(--text-strong);
+}
+
+.btn-cal-nav:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+}
+
+/* 📱 En celulares achicamos más */
+@media (max-width: 480px) {
+  .btn-cal-nav {
+    min-width: 32px !important;
+    padding: 2px 6px !important;
+    font-size: 0.8rem;
+  }
+
+  #monthYear {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .day {
+    overflow: hidden;        /* 🔒 nada sale del cuadro */
+  }
+
+  .day .event {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-top: 2px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 👈 máximo 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 768px) {
+  .day {
+    max-height: 70px;
+  }
+}
+
+/* 🔒 Ocultar los botones de edición por defecto si NO está activo el modo edición */
+body:not(.modo-edicion) .boton-edicion {
+    display: none !important;
+}
+
+/* 📱 Ajustes para móviles solo si el modo edición está activo */
+@media (max-width: 480px) {
+
+  /* Botón eliminar del repertorio */
+  body.modo-edicion .btn-delete-song,
+  body.modo-edicion .btn-rep-action {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      padding: 0 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      font-size: 1rem !important;
+  }
+
+  /* Botón Editar repertorio (agenda) */
+  body.modo-edicion .card-header strong + .btn.boton-edicion {
+      width: auto !important;
+      min-width: unset !important;
+      padding: 4px 10px !important;
+      font-size: 0.75rem !important;
+      height: auto !important;
+      line-height: 1.1 !important;
+
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap; /* evita que corte "Editar" */
+  }
+
+}
+
+/* ===== SIDEBAR FLOTANTE Y CENTRADA CON SCROLL (DESKTOP) ===== */
+@media (min-width: 992px) {
+
+  .sidebar {
+    position: fixed;
+    left: calc(50% - 600px); /* ajusta según tu layout */
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: auto;
+    z-index: 1000;
+  }
+
+  .app-wrapper {
+    margin-left: 100px; /* deja espacio para la sidebar */
+  }
+}
+
+.btn-flecha {
+  color: var(--primary-accent);       /* violeta pastel */
+  border: 1px solid var(--primary-accent);
+  background-color: rgba(255,255,255,0.65);  /* cristal ligero */
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.btn-flecha:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.1);
+}
+
+/* Cuando están en la paginación del repertorio */
+#paginacionRepertorio .btn-flecha {
+  min-width: 42px;
+  min-height: 36px;
+  padding: 0.3rem 0.8rem; /* respeta tu diseño */
+}
+
+/* Número de página */
+#paginaActual {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
+#paginacionRepertorio span {
+  white-space: nowrap;
+}
+
+.home-player {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,.15);
+  z-index: 999;
+}
+
+.video-thumb {
+  height: 110px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.2s ease;
+}
+
+.videos-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    padding: 0.5rem;
+  }
+
+  .card-title,
+  strong {
+    font-size: 0.85rem;
+  }
+}
+
+#homeFavoritos {
+  max-height: 180px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.4);
+  margin-bottom: 2rem;
+}
+
+#homeFavoritos::-webkit-scrollbar {
+  width: 6px;
+}
+#homeFavoritos::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+#btnToggleEdicion i {
+  color: #eaedf1;
+  transition: all 0.2s ease;
+}
+
+#btnToggleEdicion:hover i {
+  color: #eeeef0;
+}
+
+body.modo-edicion #btnToggleEdicion i {
+  color: #f59e0b; /* dorado edición */
+}
+
+.jam-logo {
+  max-width: 320px;     /* ajustá a gusto */
+  width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+html {
+  overflow-y: scroll;
+}
+    
+    
+    :root {
+  /* Fondo general */
+  --bg-body: #f4eef2;
+  --bg-gradient-1: #f7e9f2;
+  --bg-gradient-2: #eef2f7;
+
+  /* Cards / Glass */
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.45);
+
+  /* Acentos */
+  --primary-accent: #a78bfa;     /* violeta pastel */
+  --secondary-accent: #67e8f9;   /* celeste pastel */
+  --accent-pink: #f9a8d4;
+
+  /* Texto */
+  --text-main: #4b5563;
+  --text-strong: #374151;
+  --text-muted: #9ca3af;
+}
+
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+
+  background:
+    radial-gradient(circle at top right, #fde2f3, transparent 60%),
+    radial-gradient(circle at bottom left, #e0f2fe, transparent 60%),
+    linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+}
+
+
+/* Contenedor con efecto cristal */
+.container-glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+}
+
+.subtitle {
+  color: var(--text-muted);
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-strong);
+}
+
+    .col-lista {
+  width: 100%;
+}
+
+.lista-panel {
+  width: 100%;
+}
+
+.item-lista {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* === BOTONES MODERNOS COMPACTOS === */
+.btn-app {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  border-radius: 14px;
+  font-weight: 600;
+
+  box-shadow:
+    0 8px 20px rgba(167,139,250,.35);
+  display: inline-flex;        /* 👈 CLAVE */
+  align-items: center;         /* 👈 centra vertical */
+  justify-content: center;     /* 👈 centra horizontal */
+  gap: 8px;
+}
+
+.btn-app:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(167,139,250,.45);
+}
+
+.btn-app-outline {
+  min-width: 160px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: rgba(59,130,246,.1);
+  color: #93c5fd;
+  border: 1px solid rgba(59,130,246,.35);
+}
+
+    /* Estilo de las Cards de la Agenda */
+.card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.06);
+}
+
+.card-body ul {
+  margin: 0;
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  font-size: .9rem;
+  color: #e2e8f0;
+}
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+.day-pill {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+
+  color: #6b7280;
+  font-weight: 600;
+}
+
+
+    .day-header {
+      text-decoration: none !important;
+    }
+
+
+    .card-evento:hover {
+      border-color: var(--primary-accent);
+    }
+
+.form-control,
+.form-select {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+
+    .form-control:focus {
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Badges (Músicos) */
+.badge-musico {
+  background: linear-gradient(135deg, #c4b5fd, #a5f3fc);
+  color: #374151;
+  font-weight: 600;
+  border-radius: 999px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+
+
+    /* Modales */
+    .modal-content {
+      background-color: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+    }
+
+    .modal-header { border-bottom: 1px solid var(--glass-border); }
+    .modal-footer { border-top: 1px solid var(--glass-border); }
+
+    /* ============================= */
+/*  MODO EDICIÓN */
+/* ============================= */
+
+/* Ocultos por defecto */
+.boton-edicion {
+  display: none;
+}
+
+/* Visibles solo en modo edición */
+.modo-edicion .boton-edicion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-body); }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+.list-group,
+.list-group-item {
+  background: transparent !important;
+  color: var(--text-main) !important;
+  border-color: rgba(255,255,255,0.05) !important;
+}
+
+#agenda .list-group-item {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.5;
+  min-width: 0;
+}
+
+.contenedor-musicos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+#agenda .badge-musico {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.bloque-cancion > div:first-child {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  min-width: 0; /* Permite que se encoja correctamente en flexbox */
+  padding-right: 10px; /* Espaciado */
+  /* Quita las propiedades 'white-space', 'overflow', 'text-overflow' de aquí y de .bloque-cancion */
+}
+
+/* ===== BLOQUES DE MODAL UNIFICADOS ===== */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#agenda .btn-app,
+#agenda .btn-app-outline,
+#agenda .boton-edicion,
+#agenda .btn-edicion-ui {
+  min-width: auto !important;
+  max-width: 100%;
+}
+
+/* Bloques tipo lista */
+.modal-bloque {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.08),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+}
+
+
+/* Cabecera de bloque */
+.modal-bloque-header {
+  font-weight: 600;
+  color: #c7d2fe;
+  margin-bottom: 6px;
+  font-size: .85rem;
+}
+
+/* Botones dentro del modal */
+.modal .btn {
+  border-radius: 10px;
+}
+
+/* Inputs dentro del modal */
+.modal input,
+.modal select {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+/* Scroll elegante */
+.modal-dialog-scrollable .modal-body {
+  scrollbar-width: thin;
+}
+
+/* Inputs para que ocupen el espacio restante */
+.song-input {
+  flex: 1; 
+  /* Asegura que los inputs no se desborden y crezcan uniformemente */
+  min-width: 0; 
+}
+
+/* Estilo para el botón de eliminar, haciéndolo más visible (rojo) */
+.btn-delete-song {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  background: linear-gradient(135deg, #fca5a5, #f87171);
+  color: white;
+
+  border: 1px solid rgba(59,130,246,.4);
+
+  box-shadow: 0 6px 16px rgba(248,113,113,.35);
+  transition: all .2s ease;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-song:hover {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  box-shadow: 0 6px 14px rgba(59,130,246,.45);
+  transform: translateY(-1px);
+}
+
+.btn-instrumento {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  font-size: 0.8rem;
+  border-radius: 10px;
+}
+
+.instrumento-label {
+  color: #93c5fd;          /* azul clarito */
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+.evento-descripcion {
+  font-weight: 600;
+  color: var(--text-strong);
+  cursor: default;
+}
+
+.modo-edicion .evento-descripcion,
+.modo-edicion .evento-horario {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+.evento-horario {
+  font-size: 0.85rem;
+  color: var(--primary-accent);
+}
+
+.modo-edicion [contenteditable="true"]:focus {
+  box-shadow: 0 0 0 2px rgba(59,130,246,.35);
+}
+
+/* 🔥 FORZAR LAYOUT DEL HEADER DEL DÍA */
+.day-pill > div {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.day-pill .evento-descripcion {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.day-pill .evento-horario {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.boton-edicion {
+  display: none;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  line-height: 1;
+  border-radius: 6px;
+}
+
+.modo-edicion .boton-edicion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-edicion-ui {
+  display: none;
+}
+
+.modo-edicion .btn-edicion-ui {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 🔥 IGUALAR ALTURA REAL input + botón */
+.input-group > .form-control,
+.input-group > .form-select,
+.input-group > .btn {
+  height: 32px;            /* ajustá si usás lg o default */
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Centrar iconos (❌ ➕) */
+.input-group > .btn {
+  justify-content: center;
+  line-height: 1;
+}
+
+
+/* ===== RESPONSIVE CELULARES ===== */
+/* ================== RESPONSIVE CELULARES FINAL ================== */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .container-glass {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  h1 { font-size: 1.5rem; }
+  .subtitle { font-size: 0.85rem; }
+
+  /* Botones ajustados a pantalla */
+  .btn-app,
+  .btn-app-outline {
+    min-width: auto;
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+  }
+
+  .d-flex.flex-wrap.justify-content-center.gap-3 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Cards y day-pill */
+  .card, .day-pill {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .day-pill { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
+
+  .card-body { padding: 1rem; }
+
+  /* Inputs y selects */
+  .form-control, .form-select {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  /* Badge músicos flex-wrap */
+  .badge-musico { padding: 4px 10px; font-size: 0.75rem; flex-wrap: wrap; }
+
+
+  .day-pill .evento-descripcion { font-size: 0.8rem; white-space: normal !important; overflow: visible !important; }
+  .day-pill .evento-horario { font-size: 0.75rem; white-space: normal !important; overflow: visible !important; }
+
+  /* Botones bajan a otra fila si falta espacio */
+  .boton-edicion, .btn-edicion-ui {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
+
+  /* Modales */
+  .modal-dialog { max-width: 95%; margin: 1rem; }
+  .song-row { flex-direction: column; gap: 6px; }
+  .song-row .col-md-3, .song-row .col-md-2, .song-row .col-md-4 { width: 100%; max-width: 100%; }
+  .btn-delete-song { width: 100%; justify-content: center; padding: 6px 0; }
+}
+
+/* ================== PANTALLAS MUY PEQUEÑAS (≤480px) ================== */
+@media (max-width: 480px) {
+
+    .boton-edicion {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .btn-rep-action,
+  .btn-instrumento {
+    width: auto;          /* que se ajuste al contenido */
+    height: auto;         /* evita círculos */
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
+  }
+.day-pill .boton-edicion,
+.day-pill .btn-edicion-ui {
+  min-width: auto;     /* 👈 rompe el problema */
+  white-space: nowrap;
+}
+
+
+  /* Botones ocupan toda la fila */
+  .boton-edicion, .btn-edicion-ui {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
+
+  /* Botones de YouTube / Letra en columna si no caben */
+  .day-pill .btn-app, .day-pill .btn-app-outline {
+    width: 48%;   /* máximo dos por fila */
+    margin-bottom: 4px;
+  }
+
+  /* Badge músicos flex-wrap */
+  .badge-musico,
+  .btn-instrumento {
+    width: auto !important;
+    height: auto !important;
+    min-width: 50px;
+    border-radius: 12px !important;
+    white-space: nowrap;
+    flex-shrink: 1;
+  }
+
+  /* Ajuste padding de cards */
+  .card, .day-pill { padding: 0.5rem; }
+
+  /* Modales y inputs */
+  .modal-dialog { max-width: 95%; margin: 0.5rem; }
+  #modalEditorInstrumentos .modal-bloque > div.d-flex { flex-direction: column; gap: 6px; }
+}
+
+.badge-musico {
+  border-radius: 12px !important;
+  padding: 2px 6px !important;
+  font-size: 0.65rem !important;
+  line-height: 1 !important;
+
+  min-width: 0 !important;       /* 🔹 elimina mínimo forzado */
+  width: auto !important;        /* se ajusta al contenido */
+  height: auto !important;       /* se ajusta al contenido */
+  flex-shrink: 1 !important;     /* permite encogerse dentro del flex */
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.btn-instrumento {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+.badge-musico {
+  font-size: 0.65rem;  /* más pequeño que instrumentos */
+  padding: 2px 6px;
+}
+
+.btn-icon-only {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.btn-icon-only:hover {
+  opacity: 0.8;
+}
+
+.btn-icon-only:focus,
+.btn-icon-only:active {
+  box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+
+  .page-wrapper {
+    padding: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Botones uno debajo del otro */
+  .d-flex.flex-wrap.justify-content-center.gap-3 {
+    flex-direction: column;
+  }
+
+  .btn-app,
+  .btn-app-outline {
+    width: 100%;
+  }
+}
+
+.app-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.75rem;
+  min-height: 85vh;
+}
+
+.app-layout {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.main-content {
+  flex: 1;
+  display: block;
+}
+
+.section-wrapper {
+  width: 100%;
+  max-width: 900px;   /* 👈 mismo concepto que mobile */
+  margin: 0 auto;     /* 👈 centrado */
+  box-sizing: border-box;
+}
+
+.page-wrapper {
+  width: 100%;
+  padding: 2rem;
+}
+
+
+
+#agenda .collapse,
+#agenda .collapsing {
+  width: 100%;
+}
+
+
+#agenda .collapse {
+  width: 100%;
+}
+
+#agenda,
+#agenda .collapse,
+#agenda .collapse-inner-fixed,
+#agenda > .list-group-item,
+#agenda .day-pill {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.modo-edicion .evento-fecha {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+/* Fecha a la izquierda */
+.evento-fecha {
+  text-align: left;
+  justify-self: start;
+}
+
+/* Descripción centrada */
+.evento-descripcion {
+  text-align: center;
+  justify-self: center;
+}
+
+/* Hora a la derecha */
+.evento-horario {
+  text-align: right;
+  justify-self: end;
+}
+
+
+/* Fecha a la izquierda */
+.evento-fecha {
+  text-align: left;
+  justify-self: start;
+}
+
+/* Descripción verdaderamente centrada */
+.evento-descripcion {
+  text-align: center;
+  justify-self: center;
+}
+
+/* Hora a la derecha */
+.evento-horario {
+  text-align: right;
+  justify-self: end;
+}
+
+#btnEliminarFecha:hover {
+  background-color: #8b00005b;
+  border-color: #8b000059;
+  color: white;
+}
+
+
+/* ======================================== CALENDARIO ========================================= */
+.calendar-grid {
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:12px;
+  width:100%;
+}
+
+.day{
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.08);
+
+  cursor:pointer;
+
+  aspect-ratio: 1 / 1;   /* 🔥 ESTO los hace cuadrados */
+}
+
+.day strong {
+  color: var(--text-strong);
+}
+
+.event {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
+.calendar-weekdays{
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  text-align:center;
+  font-weight:600;
+  color:#9fc5ff;
+  margin-bottom:10px;
+}
+
+.day.editable {
+  cursor: pointer;
+    background: linear-gradient(135deg, #ede9fe, #fdf2f8);
+  border-color: var(--primary-accent);
+}
+
+.day.editable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(167,139,250,.25);
+}
+
+body:not(.modo-edicion) .day {
+  cursor: default;
+  opacity: 0.85;
+}
+
+
+/* ======================================== LOBBY ==================================== */
+
+#lobbySection h2{
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+/* Caja de recordatorios */
+#weeklyEvents,
+#importantBox {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.45);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* Cada evento semanal */
+.week-event{
+  background: rgba(255,255,255,.75);
+  color: var(--text-main);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:10px;
+  font-size:.9rem;
+  
+}
+
+.week-event strong{
+  color:#60a5fa;
+  text-transform:capitalize;
+}
+
+/* Caja IMPORTANTE */
+#importantBox{
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  border-radius:16px;
+  padding:16px;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.08);
+
+  border:1px solid rgba(255,255,255,.45);
+}
+
+#importantText{
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong);
+}
+
+#importantText:focus{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(96,165,250,.4);
+}
+
+#importantPreview a{
+  color:#60a5fa;
+  text-decoration:none;
+  font-size:.85rem;
+}
+
+
+/* Mensaje vacío */
+.empty-week{
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.boton-edicion{
+  display:none !important;
+}
+
+.modo-edicion .boton-edicion{
+  display:inline-flex !important;
+}
+
+.btn-rep-action {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 1.2rem;
+}
+
+/* Botones + y guardar del repertorio: forzar cuadrados */
+.boton-edicion .btn {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  line-height: 1 !important;
+  font-size: 1.1rem !important;
+}
+
+.boton-edicion .btn-rep-action {
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+}
+
+#buscadorRepertorio {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  color: var(--text-strong) !important;
+}
+
+#buscadorRepertorio::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+#paginacionRepertorio {
+  overflow: visible;
+}
+
+#paginacionRepertorio .page-link {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(10px);
+  color: var(--text-strong);
+
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 10px;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+#paginacionRepertorio .page-item.active .page-link {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  border-color: transparent;
+}
+
+/* ================== FIX RESPONSIVE AGENDA ================== */
+@media (max-width: 768px) {
+
+  #agenda,
+  #agenda .collapse,
+  #agenda .collapse-inner-fixed,
+  #agenda > .list-group-item,
+  #agenda .day-pill {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-pill > div {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .evento-fecha,
+  .evento-horario {
+    justify-self: center;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .evento-descripcion {
+    margin: 4px 0;
+  }
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+
+  .page-wrapper {
+    padding: 0.5rem;
+  }
+
+  .app-wrapper {
+    flex-direction: column !important;  /* 🔥 CLAVE */
+    max-width: 100% !important;
+  }
+
+  .sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    flex-direction: row !important;
+    justify-content: space-around;
+    padding: 0.5rem !important;
+  }
+
+  #agenda {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .calendar-wrapper {
+    overflow-x: hidden;   /* ❌ NO scroll horizontal */
+  }
+
+  .calendar-grid {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .day {
+    aspect-ratio: auto;
+    min-height: 60px;
+    padding: 4px;
+    font-size: 0.7rem;
+  }
+
+  .day strong {
+    font-size: 0.7rem;
+  }
+
+  .event {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .sidebar {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    height: auto;
+  }
+
+  .sidebar-nav {
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .sidebar-link {
+    height: auto !important;
+    padding: 6px 4px;
+  }
+
+  .sidebar-link span {
+    display: none; /* solo íconos */
+  }
+
+  .sidebar-link i {
+    font-size: 1.3rem;
+  }
+}
+
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+#lobbySection,
+#calendarSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper,
+.calendar-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 🔥 FORZAR TODAS LAS SECCIONES A MISMO ANCHO REAL */
+#lobbySection,
+#agendaSection,
+#repertorioSection,
+#calendarSection {
+  width: 100%;
+}
+
+/* 🔥 FORZAR CONTENIDO INTERNO A ESTIRARSE */
+#lobbySection > *,
+#calendarSection > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 🎨 BOTONES DEL MODAL DEL CALENDARIO */
+#eventModal .btn-success {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+
+  box-shadow: 0 6px 18px rgba(167,139,250,.45);
+}
+
+#eventModal .btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(167,139,250,.6);
+}
+
+#eventModal .btn-danger {
+  background: rgba(248,113,113,.15);
+  color: #ef4444;
+  border: 1px solid rgba(248,113,113,.35);
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+#eventModal .btn-danger:hover {
+  background: rgba(59,130,246,.2);
+  color: #e0e7ff;
+}
+
+.calendar-header #btnModoEdicion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-header #btnModoEdicion i {
+  font-size: 1.1rem;
+}
+
+/* Estado normal */
+#btnModoEdicion {
+  transition: all 0.25s ease;
+}
+
+/* 🔥 Cuando el modo edición está activo */
+body.modo-edicion #btnModoEdicion {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 8px 20px rgba(99,102,241,.45);
+  transform: rotate(90deg);
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 6px;
+}
+
+/* Texto mes centrado relativo al contenedor */
+#monthYear {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Botones de flecha */
+.btn-cal-nav {
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 12px;
+
+  color: var(--text-strong);
+}
+
+.btn-cal-nav:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+}
+
+/* 📱 En celulares achicamos más */
+@media (max-width: 480px) {
+  .btn-cal-nav {
+    min-width: 32px !important;
+    padding: 2px 6px !important;
+    font-size: 0.8rem;
+  }
+
+  #monthYear {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .day {
+    overflow: hidden;        /* 🔒 nada sale del cuadro */
+  }
+
+  .day .event {
+    font-size: 0.6rem;
+    line-height: 1.1;
+    margin-top: 2px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 👈 máximo 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 768px) {
+  .day {
+    max-height: 70px;
+  }
+}
+
+/* 🔒 Ocultar los botones de edición por defecto si NO está activo el modo edición */
+body:not(.modo-edicion) .boton-edicion {
+    display: none !important;
+}
+
+/* 📱 Ajustes para móviles solo si el modo edición está activo */
+@media (max-width: 480px) {
+
+  /* Botón eliminar del repertorio */
+  body.modo-edicion .btn-delete-song,
+  body.modo-edicion .btn-rep-action {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      padding: 0 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      font-size: 1rem !important;
+  }
+
+  /* Botón Editar repertorio (agenda) */
+  body.modo-edicion .card-header strong + .btn.boton-edicion {
+      width: auto !important;
+      min-width: unset !important;
+      padding: 4px 10px !important;
+      font-size: 0.75rem !important;
+      height: auto !important;
+      line-height: 1.1 !important;
+
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap; /* evita que corte "Editar" */
+  }
+
+}
+
+/* ===== SIDEBAR FLOTANTE Y CENTRADA CON SCROLL (DESKTOP) ===== */
+@media (min-width: 992px) {
+
+  .sidebar {
+    position: fixed;
+    left: calc(50% - 600px); /* ajusta según tu layout */
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: auto;
+    z-index: 1000;
+  }
+
+  .app-wrapper {
+    margin-left: 100px; /* deja espacio para la sidebar */
+  }
+}
+
+.btn-flecha {
+  color: var(--primary-accent);       /* violeta pastel */
+  border: 1px solid var(--primary-accent);
+  background-color: rgba(255,255,255,0.65);  /* cristal ligero */
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.btn-flecha:hover {
+  background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  color: white;
+  cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.1);
+}
+
+/* Cuando están en la paginación del repertorio */
+#paginacionRepertorio .btn-flecha {
+  min-width: 42px;
+  min-height: 36px;
+  padding: 0.3rem 0.8rem; /* respeta tu diseño */
+}
+
+/* Número de página */
+#paginaActual {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
+#paginacionRepertorio span {
+  white-space: nowrap;
+}
+
+.home-player {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,.15);
+  z-index: 999;
+}
+
+.video-thumb {
+  height: 110px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.2s ease;
+}
+
+.videos-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    padding: 0.5rem;
+  }
+
+  .card-title,
+  strong {
+    font-size: 0.85rem;
+  }
+}
+
+#homeFavoritos {
+  max-height: 180px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.4);
+}
+
+#homeFavoritos::-webkit-scrollbar {
+  width: 6px;
+}
+#homeFavoritos::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 6px;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+#btnToggleEdicion i {
+  color: #9ca3af;
+  transition: all 0.2s ease;
+}
+
+#btnToggleEdicion:hover i {
+  color: #a78bfa;
+}
+
+body.modo-edicion #btnToggleEdicion i {
+  color: #f59e0b; /* dorado edición */
+}
+
+/* Reducir márgenes de títulos */
+h2, h3 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Reducir margen de las filas de Bootstrap */
+.row.g-3 {
+    margin-bottom: 1rem !important; /* antes era más grande */
+}
+
+/* Reducir espacio entre botones y contenedores flex */
+.d-flex.gap-3, .d-flex.gap-2 {
+    gap: 0.5rem !important;
+}
+
+/* Botones de edición más compactos */
+.btn-edicion-ui {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Contenedor principal (main) */
+.main-content {
+    padding: 1rem !important; /* reducir padding general */
+}
+
+/* Modals: margen interno */
+.modal-body {
+    padding: 1rem !important;
+}
+
+/* Ajuste de headers y logo */
+header.text-center.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+/* Calendario */
+.calendar-header {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Input y textarea más compactos */
+input.form-control, textarea.form-control {
+    margin-bottom: 0.5rem !important;
+}
+
+/* General para cualquier margin bottom excesivo */
+.mb-5 {
+    margin-bottom: 1rem !important;
+}
+
+/* Contenedor del engranaje */
+.settings-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.settings-item,
+.settings-item i {
+  color: white !important;
+}
+
+/* incluso al pasar el mouse */
+.settings-item:hover,
+.settings-item:hover i {
+  color: white !important;
+}
+
+/* Botón engranaje */
+#btnSettings {
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Menú flotante */
+.settings-menu {
+  position: absolute;
+  left: 50px;              /* 👉 sale fuera del sidebar */
+  bottom: 0;
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 8px;
+  min-width: 170px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Botones del dropdown */
+.settings-item {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.settings-item:hover {
+  background: #1e293b;
+  cursor: pointer;
+}
+
+/* === SETTINGS BUTTON === */
+.settings-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* que se vea igual que los links */
+#btnSettings {
+  background: none;
+  border: none;
+  color: #475569;
+  width: 100%;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+#btnSettings i {
+  font-size: 18px;
+}
+
+/* === MENU === */
+.settings-menu {
+  position: absolute;
+  left: 100%;
+  bottom: 0;
+  margin-left: 10px;
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 8px;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* items */
+.settings-item {
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.settings-item:hover {
+  background: #1e293b;
+  cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  .settings-wrapper {
+    margin-top: 0;
+  }
+
+  .settings-menu {
+    top: 100%;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 6px;
+  }
+}
+
+/* En mobile aseguramos que la sidebar quede arriba de todo */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative !important;
+    z-index: 9999;
+  }
+}
+
+.settings-menu {
+  background: linear-gradient(135deg, #1b1c3a, #2a2d5a);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.settings-item {
+  background: transparent;
+  border: none;
+  color: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.settings-item:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(2px);
+}
+
+.settings-item:active {
+  transform: scale(0.97);
+}
+@media (max-width: 576px) {
+  #settingsMenu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-82%);
+  }
+}

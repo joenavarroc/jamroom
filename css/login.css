@@ -1,0 +1,515 @@
+:root {
+  /* Acentos */
+  --primary-accent: #a78bfa;     /* violeta pastel */
+  --secondary-accent: #67e8f9;   /* celeste pastel */
+  --accent-pink: #f9a8d4;
+
+  /* Texto */
+  --text-main: #4b5563;
+  --text-strong: #374151;
+  --text-muted: #9ca3af;
+
+  /* Fondos */
+  --bg-main: #f5f3ff;
+  --bg-light: #ffffff;
+}
+
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Montserrat', sans-serif; 
+}
+
+/* Estilo general para el body */
+body {
+    background: linear-gradient(
+        to right,
+        var(--secondary-accent),
+        var(--primary-accent)
+    );
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;   /* 👈 clave */
+    padding: 20px 0;    /* 👈 aire arriba y abajo */
+    gap: 24px;
+}
+
+
+/* Estilos para el contenedor principal */
+.container {
+    background-color: var(--bg-light);
+    border-radius: 30px; 
+    box-shadow: 0 5px 15px rgba(167, 139, 250, 0.35);
+    position: relative; 
+    overflow: hidden; 
+    width: 468px;
+    max-width: 100%; 
+    min-height: 420px; 
+    margin-inline: auto; 
+    max-width: calc(100% - 40px);
+    
+}
+
+/* Estilos para los párrafos dentro del contenedor */
+.container p {
+    color: var(--text-main);
+    font-size: 14px; 
+    line-height: 20px; 
+    letter-spacing: 0.3px; 
+    margin: 20px 0; 
+}
+
+/* Estilos para los elementos span dentro del contenedor */
+.container span {
+    color: var(--text-muted);
+    font-size: 12px; /* Establece el tamaño de la fuente a 12px */
+}
+
+/* Estilos para los enlaces dentro del contenedor */
+.container a {
+    color: var(--text-strong);
+    font-size: 13px;
+    text-decoration: none; 
+    margin: 15px 0 10px;
+}
+
+/* Estilos para los botones dentro del contenedor */
+.container button {
+    background-color: var(--primary-accent);
+    color: #fff;
+    font-size: 12px; 
+    padding: 10px 45px; 
+    border: 1px solid transparent; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    letter-spacing: 0.5px; 
+    text-transform: uppercase; 
+    margin-top: 10px; 
+    cursor: pointer; 
+}
+
+/* Estilos para el botón con la clase 'hidden' */
+.container button.hidden {
+    background-color: transparent;
+    border-color: var(--bg-light);
+    color: var(--bg-light);
+}
+
+/* Estilos para el formulario dentro del contenedor */
+.container form {
+    background-color: #fff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-direction: column; 
+    padding: 0 40px;
+    height: 100%; 
+}
+
+/* Estilos para los campos de entrada dentro del contenedor */
+.container input {
+    background-color: #f1f5f9;
+    color: var(--text-strong);
+    border: none; 
+    margin: 8px 0; 
+    padding: 10px 15px; 
+    font-size: 13px; 
+    border-radius: 8px; 
+    width: 100%; 
+    outline: none;
+}
+
+/* Contenedor que alberga los formularios de inicio de sesión y registro */
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out; 
+}
+
+/* Estilos para el formulario de inicio de sesión */
+.sign-in {
+    left: 0; 
+    width: 50%; 
+    z-index: 2; 
+}
+
+.container.active .sign-in {
+    transform: translateX(100%); 
+}
+
+/* Estilos para el formulario de registro */
+.sign-up {
+    left: 0;
+    width: 50%; 
+    opacity: 0; 
+    z-index: 1; 
+}
+
+.container.active .sign-up {
+    transform: translateX(100%); 
+    opacity: 1; 
+    z-index: 5; 
+    animation: move 0.6s; 
+}
+
+/* Animación para mover el formulario de registro */
+@keyframes move {
+    0%, 49.99% {
+        opacity: 0; 
+        z-index: 1; 
+    }
+    50%, 100% {
+        opacity: 1; 
+        z-index: 5; 
+    }
+}
+
+/* Estilos para los íconos sociales */
+.social-icons {
+    margin: 30px 0;
+}
+
+/* Estilos para cada ícono social */
+.social-icons a {
+    border: 1px solid var(--primary-accent);
+    background-color: var(--secondary-accent);
+    color: var(--text-strong);
+    border-radius: 20%; 
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0 3px; 
+    width: 40px; 
+    height: 40px;
+
+}
+
+/* Estilos para el contenedor del toggle (cambio entre formularios) */
+.toggle-container {
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    width: 50%; 
+    height: 100%; 
+    overflow: hidden; 
+    transition: all 0.6s ease-in-out; 
+    border-radius: 150px 0 0 100px; 
+    z-index: 1000; 
+    
+}
+
+.container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0; 
+}
+
+/* Estilos para el contenedor de toggle */
+.toggle {
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        var(--primary-accent),
+        var(--accent-pink)
+    );
+    color: #fff;
+    position: relative;
+    left: -100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+
+.container.active .toggle {
+    transform: translateX(50%);
+}
+
+/* Estilos para cada panel dentro del toggle */
+.toggle-panel {
+    position: absolute; 
+    width: 50%; 
+    height: 100%; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    flex-direction: column; 
+    padding: 0 30px; 
+    text-align: center;
+    top: 0; 
+    transform: translateX(0); 
+    transition: all 0.6s ease-in-out;
+    background-color: var(--primary-accent);
+}
+
+/* Panel izquierdo del toggle */
+.toggle-left {
+    transform: translateX(-200%); 
+}
+
+
+.container.active .toggle-left {
+    transform: translateX(0); 
+}
+
+/* Panel derecho del toggle */
+.toggle-right {
+    right: 0; 
+    transform: translateX(0); 
+}
+
+
+.container.active .toggle-right {
+    transform: translateX(200%); 
+}
+
+.social-icons a {
+    border: 1px solid var(--primary-accent);
+    background-color: var(--secondary-accent);
+    color: var(--text-strong);
+}
+
+.vip-input {
+  width: 100%;            /* ocupa solo el ancho del contenedor */
+  max-width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.vip-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.vip-primary {
+  background: #ffc107;
+  font-weight: bold;
+}
+
+.vip-sub {
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+/* ====== VIP WRAPPER ====== */
+.vip-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* ====== VIP CARD ====== */
+.vip-container {
+    background-color: var(--bg-light);
+    width: 468px;
+    max-width: 100;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(167, 139, 250, 0.35);
+    padding: 35px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: 
+        max-width 0.6s ease,
+        padding 0.4s ease;
+}
+
+/* ====== VIP FORM ====== */
+.vip-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título VIP */
+.vip-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+
+    background: linear-gradient(
+        90deg,
+        #f7e7a4,
+        #e6c35c,
+        #d4af37,
+        #e6c35c
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    margin-bottom: 6px;
+}
+
+/* Corona */
+.vip-title i {
+    font-size: 22px;
+
+    background: linear-gradient(
+        180deg,
+        #fff4c2,
+        #e6c35c,
+        #c9a227
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 2px 3px rgba(212, 175, 55, 0.45));
+}
+
+.vip-container.active .vip-title {
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+
+/* Texto */
+.vip-form span {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+/* Inputs (igual que login) */
+.vip-form input {
+    background-color: #f1f5f9;
+    color: var(--text-strong);
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Botones */
+.vip-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 320px;
+    flex-direction: column; /* 👈 mobile friendly */
+}
+
+/* Botón principal */
+.vip-form button {
+    background-color: var(--primary-accent);
+    color: #fff;
+    padding: 10px 35px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Botón secundario */
+.vip-outline {
+    background: transparent;
+    color: var(--primary-accent);
+    border: 1px solid var(--primary-accent);
+}
+
+/* ===== VIP TAB ===== */
+.vip-container {
+    cursor: pointer;
+}
+
+/* HEADER */
+.vip-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* BODY COLAPSABLE */
+.vip-body {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.6s ease, opacity 0.4s ease;
+}
+
+/* ESTADO ABIERTO */
+.vip-container.active .vip-body {
+    max-height: 400px;
+    opacity: 1;
+    margin-top: 20px;
+}
+
+/* ALTURA COMPACTA CERRADA */
+.vip-container:not(.active) {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+@media (max-width: 480px) {
+    .container {
+        border-radius: 20px;
+    }
+
+    .vip-container {
+        padding: 25px 20px;
+    }
+
+    .vip-form h1 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vip-container {
+        max-width: 92%;
+    }
+
+    .vip-container.active {
+        max-width: 92%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .container,
+    .vip-container {
+        max-width: 92%;
+        margin-inline: auto;
+    }
+
+    .container {
+        border-radius: 20px;
+    }
+
+    .vip-container {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        justify-content: center;   /* 👈 centra vertical */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        justify-content: center;
+        min-height: 100svh; /* mejor que 100vh en mobile */
+    }
+}

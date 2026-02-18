@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Metrónomo Pro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="glass">
+  <h1 id="bpmDisplay">120 BPM</h1>
+
+  <input type="range" id="bpm" min="30" max="240" value="120">
+
+  <!-- LEDs -->
+  <div class="leds" id="leds"></div>
+
+  <!-- Controles -->
+  <div class="controls">
+    <button id="play" class="icon play"></button>
+    <button id="stop" class="icon stop"></button>
+    <button id="tap" class="transport tap">TAP</button>
+  </div>
+
+    <!-- selector de sonido -->
+    <div class="sound-select">
+        <span>Sonido:</span>
+        <select id="soundType">
+            <option value="digital">Digital</option>
+            <option value="wood">Madera</option>
+            <option value="clap">Clap</option>
+        </select>
+    </div>
+
+    <div class="volume-control">
+        <span>Volumen</span>
+        <input type="range" id="volume" min="0" max="100" value="70">
+    </div>
+
+    <div class="time-signature">
+        <span>Compás</span>
+        <select id="timeSignature">
+            <option value="4/4">4 / 4</option>
+            <option value="3/4">3 / 4</option>
+            <option value="6/8">6 / 8</option>
+            <option value="12/8">12 / 8</option>
+        </select>
+    </div>
+
+  <!-- Acento -->
+  <div class="accent">
+    <span>Acento:</span>
+    <select id="accent">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+
+  <!-- Figuras -->
+  <div class="figures">
+    <button data-mult="4">𝅝</button>
+    <button data-mult="2">𝅗𝅥</button>
+    <button data-mult="1" class="active">♩</button>
+    <button data-mult="0.5">♪</button>
+    <button data-mult="0.25">𝅘𝅥𝅯</button>
+    <button data-mult="0.125">𝅘𝅥𝅰</button>
+    <button data-mult="0.0625">𝅘𝅥𝅱</button>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
